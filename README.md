@@ -22,8 +22,7 @@
 
 ## 2. Documents
 ### 2.1 UserRequirements
-[link keyword][userReq]
-[userReq]: URL "./Requirement&UseCase/08팀 요구사항 문서.docx"
+syntax: [UserReq](./Requirement&UseCase/08팀 요구사항문서.docx)
 ### 2.2 UseCase Diagram
 ![UseCaseDiagram](./Images/UseCase.png)
 ### 2.3 Activity Diagram
