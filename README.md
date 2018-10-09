@@ -26,7 +26,7 @@
 ### 2.2 UseCase Diagram
 ![UseCaseDiagram](./Images/UseCase.png)
 ### 2.3 Activity Diagram
-####![ActivityDiagram](./Images/Activity_upload.png)
-####![ActivityDiagram](./Images/Activity_submit.png)
-####![ActivityDiagram](./Images/Activity_result_view_edit.png)
+#### ![ActivityDiagram](./Images/Activity_upload.png)
+#### ![ActivityDiagram](./Images/Activity_submit.png)
+#### ![ActivityDiagram](./Images/Activity_result_view_edit.png)
 
