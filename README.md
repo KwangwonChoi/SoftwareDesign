@@ -15,10 +15,10 @@
 
 ### 1.2 제작기간
 
-#### 10.4 Requirements & Usecase Diagram.
-#### 11.1 Class Diagram & Sequence Diagram
-#### 11.22 Design Documents
-#### 12.7 System Programming.
+#### ~ 10.4 Requirements & Usecase Diagram.
+#### ~ 11.1 Class Diagram & Sequence Diagram
+#### ~ 11.22 Design Documents
+#### ~ 12.7 System Programming.
 
 ## 2. Documents
 ### 2.1 UserRequirements
@@ -26,7 +26,7 @@
 ### 2.2 UseCase Diagram
 ![UseCaseDiagram](./Images/UseCase.png)
 ### 2.3 Activity Diagram
-![ActivityDiagram](./Images/Activity_upload)
-![ActivityDiagram](./Images/Activity_submit)
-![ActivityDiagram](./Images/Activity_result_view_edit)
+![ActivityDiagram](./Images/Activity_upload.png)
+![ActivityDiagram](./Images/Activity_submit.png)
+![ActivityDiagram](./Images/Activity_result_view_edit.png)
 
