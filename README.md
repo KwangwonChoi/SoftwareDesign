@@ -22,7 +22,7 @@
 
 ## 2. Documents
 ### 2.1 UserRequirements
-syntax: [UserReq](./Requirement&UseCase/08팀 요구사항문서.docx)
+<https://github.com/KwangwonChoi/SoftwareDesign/blob/master/Requirement&UseCase/08%ED%8C%80%20%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AC%B8%EC%84%9C.docx?raw=true/>
 ### 2.2 UseCase Diagram
 ![UseCaseDiagram](./Images/UseCase.png)
 ### 2.3 Activity Diagram
