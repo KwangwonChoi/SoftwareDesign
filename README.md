@@ -18,7 +18,7 @@
 #### ~ 10.4 Requirements & Usecase Diagram.
 #### ~ 11.1 Class Diagram & Sequence Diagram
 #### ~ 11.22 Design Documents
-#### ~ 12.7 System Programming.
+#### ~ 12.7 Implement
 
 ## 2. Documents
 ### 2.1 System Proposal
