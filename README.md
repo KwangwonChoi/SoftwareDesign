@@ -35,5 +35,7 @@
 
 ### 2.5 Sequence Diagram
 #### ![SequenceDiagram](./Images/SequenceDiagram_submitApplication.jpg)
+
+#### 아래의 시퀀스 다이어그램은 클래스 다이어그램의 수정으로 수정이 필요함.
 #### ![SequenceDiagram](./Images/SequenceDiagram_update응시원서.jpg)
 #### ![SequenceDiagram](./Images/SequenceDiagram_Upload모집공고.jpg)
