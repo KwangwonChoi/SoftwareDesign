@@ -24,9 +24,16 @@
 ### 2.1 System Proposal
 <https://github.com/KwangwonChoi/SoftwareDesign/blob/master/Requirement&UseCase/08%ED%8C%80%20%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AC%B8%EC%84%9C.docx?raw=true/>
 ### 2.2 Usecase Diagram
-![UseCaseDiagram](./Images/UseCase.png)
+![UseCaseDiagram](./Images/UseCase.jpg)
 ### 2.3 Activity Diagram
 #### ![ActivityDiagram](./Images/Activity_upload.png)
 #### ![ActivityDiagram](./Images/Activity_submit.png)
 #### ![ActivityDiagram](./Images/Activity_result_view_edit.png)
 
+### 2.4 Class Diagram
+#### ![ClassDiagram](./Images/ClassDiagram.jpg)
+
+### 2.5 Sequence Diagram
+#### ![SequenceDiagram](./Images/SequenceDiagram_submitApplication.jpg)
+#### ![SequenceDiagram](./Images/SequenceDiagram_update응시원서.jpg)
+#### ![SequenceDiagram](./Images/SequenceDiagram_Upload모집공고.jpg)
