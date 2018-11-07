@@ -39,3 +39,18 @@
 #### 아래의 시퀀스 다이어그램은 클래스 다이어그램의 수정으로 수정이 필요함.
 #### ![SequenceDiagram](./Images/SequenceDiagram_update응시원서.jpg)
 #### ![SequenceDiagram](./Images/SequenceDiagram_Upload모집공고.jpg)
+
+## 3. Others
+
+### 3.1 Log
+#### 3.1.1 프로그램을 개발하면서 로그를 사용하게 되면 다음과 같은 이점을 가진다. 이에 본 프로그램에 로그를 사용하고자 한다.
+##### 1. 로그를 기록하여 나중에 결과를 분석할 수 있다.
+##### 2. 개발 기간 중에 문제가 발생한 시점을 찾아낼 수 있다.
+##### 3. 어플리케이션이 실행되는 동안의 상황과 상태정보를 알 수 있다.
+#### 3.1.2 로그 개념 관련 링크
+##### <https://opentutorials.org/course/697/3958/>
+#### 3.1.3 Log4j
+##### 1. 본 프로그램 에서는 가장 보편적인 Log4j를 사용하고자 한다.
+##### 2. 위키피디아 : <https://ko.wikipedia.org/wiki/Log4j/>
+##### 3. log4j 사용 방법 : <http://wiki.intellicode.co.kr/doku.php?id=%ED%98%95%EC%86%8C%EB%8B%B4:log4j_%EC%82%AC%EC%9A%A9_%EB%B0%A9%EB%B2%95/>
+
