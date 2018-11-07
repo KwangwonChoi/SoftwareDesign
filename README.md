@@ -22,7 +22,7 @@
 
 ## 2. Documents
 ### 2.1 System Proposal
-<https://github.com/KwangwonChoi/SoftwareDesign/raw/master/SystemProposal/08%ED%8C%80%20%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AC%B8%EC%84%9C_ver02.docx>
+<https://github.com/KwangwonChoi/SoftwareDesign/raw/master/SystemProposal/08%ED%8C%80%20%EC%9A%94%EA%B5%AC%EC%82%AC%ED%95%AD%20%EB%AC%B8%EC%84%9C.pdf>
 ### 2.2 Usecase Diagram
 ![UseCaseDiagram](./Images/UseCase.jpg)
 ### 2.3 Activity Diagram
