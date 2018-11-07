@@ -30,3 +30,10 @@
 #### ![ActivityDiagram](./Images/Activity_submit.png)
 #### ![ActivityDiagram](./Images/Activity_result_view_edit.png)
 
+### 2.4 Class Diagram
+#### ![ClassDiagram](./Images/ClassDiagram.jpg)
+
+### 2.5 Sequence Diagram
+#### ![SequenceDiagram](./Images/SequenceDiagram_submitApplication.jpg)
+#### ![SequenceDiagram](./Images/SequenceDiagram_update응시원서.jpg)
+#### ![SequenceDiagram](./Images/SequenceDiagram_Upload모집공고.jpg)
