@@ -51,6 +51,6 @@
 ##### <https://opentutorials.org/course/697/3958/>
 #### 3.1.3 Log4j
 ##### 1. 본 프로그램 에서는 가장 보편적인 Log4j를 사용하고자 한다.
-##### 2. 위키피디아 : <https://ko.wikipedia.org/wiki/Log4j/>
+##### 2. 위키피디아 : <https://ko.wikipedia.org/wiki/Log4j>
 ##### 3. log4j 사용 방법 : <http://wiki.intellicode.co.kr/doku.php?id=%ED%98%95%EC%86%8C%EB%8B%B4:log4j_%EC%82%AC%EC%9A%A9_%EB%B0%A9%EB%B2%95/>
 
