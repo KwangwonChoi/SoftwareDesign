@@ -1,5 +1,5 @@
 package MemberInfoManage;
 
-public class MemberInfo {
+public class StudentInfo {
 
 }
