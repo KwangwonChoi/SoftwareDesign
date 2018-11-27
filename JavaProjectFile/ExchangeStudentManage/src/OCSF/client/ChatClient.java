@@ -28,6 +28,7 @@ public class ChatClient extends AbstractClient
    * the display method in the client.
    */
   ChatIF clientUI; 
+  String stringFromServer;
 
   
   //Constructors ****************************************************
@@ -58,9 +59,17 @@ public class ChatClient extends AbstractClient
    */
   public void handleMessageFromServer(Object msg) 
   {
-    clientUI.display(msg.toString());
+    stringFromServer = msg.toString();
   }
 
+  
+  public String GetstringFromServer() {
+	  String ret = stringFromServer;
+	  
+	  stringFromServer = null;
+	  
+	  return ret;
+  }
   /**
    * This method handles all data coming from the UI            
    *

@@ -4,9 +4,10 @@ package OCSF;
 // license found at www.lloseng.com 
 
 import java.io.*;
+import MemberInfoManage.LoginInfo;
 import OCSF.client.*;
 import OCSF.common.*;
-import MemberInfoManage.LoginInfo;
+import UI.*;
 
 /**
  * This class constructs the UI for a chat client.  It implements the
@@ -32,7 +33,6 @@ public class ClientConsole implements ChatIF
   /**
    * The instance of the client that created this ConsoleChat.
    */
-  ChatClient client;
 
   
   //Constructors ****************************************************
@@ -47,7 +47,7 @@ public class ClientConsole implements ChatIF
   {
     try 
     {
-      client= new ChatClient(host, port, this);
+      ClientData.GetIntance().SetClient(new ChatClient(host, port, this));
     } 
     catch(IOException exception) 
     {
@@ -66,23 +66,9 @@ public class ClientConsole implements ChatIF
    */
   public void accept() 
   {
-    try
-    {
-      BufferedReader fromConsole = 
-        new BufferedReader(new InputStreamReader(System.in));
-      String message;
-
-      while (true) 
-      {
-        message = fromConsole.readLine();
-        client.handleMessageFromClientUI(message);
-      }
-    } 
-    catch (Exception ex) 
-    {
-      System.out.println
-        ("Unexpected error while reading from console!");
-    }
+	SignMenuUi signMenu = new SignMenuUi("SignMenu");
+	signMenu.UiStart();
+	System.out.println("Program Ended");
   }
 
   /**
