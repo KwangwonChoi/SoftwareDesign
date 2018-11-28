@@ -25,3 +25,14 @@
 ## 2.3 Server-File
 ### 2.3.1 Server에서 File에 저장하는 모든 내용은 Json으로 저장된다.
 ### 2.3.2 File에 접근하기위해서는 FileManager만 이용해야 하며, 모든 파일의 경로는 ../Data/* 이어야 한다.
+
+#
+# 3. Framework
+## 3.1 OCSF
+### 3.1.1 본 프로그램의 OCSF를 이용하여 구현하였다.
+
+#
+# 4. External Libraries
+## 4.1 Gson
+### 4.1.1 본 프로그램의 Json형식은 Gson을 이용하여 구현하였다.
+## 4.2 Log4j
