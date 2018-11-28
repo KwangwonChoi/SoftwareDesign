@@ -31,6 +31,7 @@ public abstract class MakeUiBase extends UiBase {
 		PrintFileRequire();
 		while(PrintFileValidation(CheckValidFiles(_files = GetFiles())));
 		
+		SendPostsToServer();
 	}
 	
 	protected void PrintSubjectRequire() {
@@ -71,4 +72,6 @@ public abstract class MakeUiBase extends UiBase {
 	protected abstract List<File> GetFiles();
 	protected abstract int CheckValidFiles(List<File> f);
 	protected abstract boolean PrintFileValidation(int invalidType);
+	
+	protected abstract void SendPostsToServer();
 }
