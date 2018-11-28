@@ -2,8 +2,7 @@
 ## 1.1 Code 상에서의 Naming 규칙
 #### - Class 및 Method 는 Pascal-Case를 사용한다. (ex. PascalCase)
 #### - attribute는 Camel-Case를 사용한다. (ex.camelCase)
-#### - bool을 형의 Method 및 attribute는 어미가 정해져 있다. 
-##### - is, has
+#### - 특별한 경우를 제외하곤 bool을 형의 Method 및 attribute의 어두를 is 나 has로 사용한다.
 #### - private 및 protected 의 어미에는 _(underbar)가 들어가야 한다.
 #### - import는 Dictionary 순으로 정렬한다.
 
