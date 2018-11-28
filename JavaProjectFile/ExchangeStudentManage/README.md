@@ -26,6 +26,41 @@
 ### 2.1.1 Server-Client의 Communiation양식은 기본적으로 Json을 사용한다.
 ### 2.1.2 Client에서 받은 정보를 Server에서 재가공 하기 위해 JsonWrapper class의 type을 이용하여 Client object의 정보를 읽어낸다.
 #### EchoServer의 handleMessageFromClient에서 확인할 수 있다.
+```java
+public void handleMessageFromClient
+    (Object msg, ConnectionToClient client)
+  {
+    System.out.println("Message received: " + msg + " from " + client);
+    
+    Gson gson = new Gson();
+    JsonWrapper receivedData = gson.fromJson(msg.toString(), JsonWrapper.class);
+    boolean isSucceed = false;
+    
+    switch(receivedData.type) {
+    case SIGNIN:
+    	isSucceed = SignIn(gson.fromJson(receivedData.json, LoginInfo.class));
+    	break;
+    case SIGNUPSTAFF:
+    	isSucceed = SignUp(gson.fromJson(receivedData.json, StaffInfo.class));
+    	break;
+    case SIGNUPSTUDENT:
+    	isSucceed = SignUp(gson.fromJson(receivedData.json, StudentInfo.class));
+    	break;
+    case MAKERECRUITMENT:
+    	break;
+    case MAKEAPPLICATION:
+    	break;
+    }
+    
+    try {
+		client.sendToClient(isSucceed);
+		
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+  }
+```
 ##
 ## 2.2 Ui-Server
 ### 2.2.1 Ui에서 Server에 정보를 보내기위해 OCSF의 ChatClient를 이용해야한다. 이 ChatClient는 OCSF.client의 ClientData 안에 구현되어있다.
