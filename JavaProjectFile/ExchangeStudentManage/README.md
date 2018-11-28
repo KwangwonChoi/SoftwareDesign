@@ -5,7 +5,7 @@
 #### - 특별한 경우를 제외하곤 bool을 형의 Method 및 attribute의 어두를 is 나 has로 사용한다.
 #### - private 및 protected 의 어미에는 _(underbar)가 들어가야 한다.
 #### - import는 Dictionary 순으로 정렬한다.
-
+#
 # 2. UI
 ## 2.1. UiBase
 ### 2.1.1. UiBase는 모든 Ui가 상속 받아야하는 Class이다.
