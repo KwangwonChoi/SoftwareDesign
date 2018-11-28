@@ -2,6 +2,8 @@ package UI;
 
 import com.google.gson.Gson;
 import MemberInfoManage.StaffInfo;
+import OCSF.common.*;
+import OCSF.common.JsonWrapper.SEND_TYPE;
 
 public class SignUpStaffUi extends SignUpBaseUi{
 
@@ -40,10 +42,10 @@ public class SignUpStaffUi extends SignUpBaseUi{
 	@Override
 	protected String SignUpJsonInfo() {
 		
-		Gson gson = new Gson();
 		StaffInfo staff = new StaffInfo(_id,_pw,_number,_age,_department);
+		JsonWrapper json = new JsonWrapper();
 		
-		return gson.toJson(staff);
+		return json.ToJson(SEND_TYPE.SIGNUPSTAFF, staff);
 	}
 
 }

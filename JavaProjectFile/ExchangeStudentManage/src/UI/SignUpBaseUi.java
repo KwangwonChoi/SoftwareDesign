@@ -29,8 +29,10 @@ public abstract class SignUpBaseUi extends UiBase{
 		// TODO Auto-generated method stub
 		GetInfoProcess();
 		
-		if(_wantSignUp)
-			SignUpToServer();
+		if(_wantSignUp) {
+			if(!SignUpToServer())
+				System.out.println("이미 존재하는 ID입니다.");
+		}
 	}
 	
 	protected void GetInfoProcess() {
@@ -104,15 +106,22 @@ public abstract class SignUpBaseUi extends UiBase{
 		}while(true);
 	}
 
-	protected void SignUpToServer() {
+	protected boolean SignUpToServer() {
+		boolean isSucceed = false;
+		
 		try {
 			
 			ClientData.GetIntance().GetClient().sendToServer(SignUpJsonInfo());
+			
+			if(ClientData.GetIntance().GetClient().GetstringFromServer() == "true")
+				isSucceed = true;
 			
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		return isSucceed;
 	}
 	
 	protected abstract String SignUpJsonInfo();

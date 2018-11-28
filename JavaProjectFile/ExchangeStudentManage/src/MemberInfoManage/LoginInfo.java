@@ -2,12 +2,12 @@ package MemberInfoManage;
 
 public class LoginInfo {
 
-	public String _id;
-	public String _pw;
+	public String id;
+	public String pw;
 	
 	public LoginInfo(String id, String pw) {
-		_id = id;
-		_pw = pw;
+		this.id = id;
+		this.pw = pw;
 	}
 	 
 }

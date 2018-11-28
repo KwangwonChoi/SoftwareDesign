@@ -6,6 +6,8 @@ import java.util.Scanner;
 import com.google.gson.Gson;
 import MemberInfoManage.*;
 import OCSF.client.*;
+import OCSF.common.JsonWrapper;
+import OCSF.common.JsonWrapper.SEND_TYPE;
 
 public class SignInUi extends UiBase{
 
@@ -70,8 +72,8 @@ public class SignInUi extends UiBase{
 	private boolean ConnectToServer() throws InterruptedException {
 		boolean ret = false;
 		
-		Gson gson = new Gson();
-		String loginInfo = gson.toJson(new LoginInfo(_id,_pw));
+		JsonWrapper json = new JsonWrapper();
+		String loginInfo = json.ToJson(SEND_TYPE.SIGNIN, new LoginInfo(_id,_pw));
 		String serverText = null;
 		
 		try {
@@ -92,7 +94,7 @@ public class SignInUi extends UiBase{
 			System.out.println("통신에러!");
 		}
 		
-		if(!serverText.equals("no member"))
+		if(!serverText.equals("false"))
 			ret = true;
 		
 		return ret;
