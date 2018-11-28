@@ -5,8 +5,17 @@
 ##
 ## 1.2. MenuUiBase
 ### 1.2.1 MenuUi의 Base가 되는 Class이다.
-#### _uiLists에 메뉴를 선택하면 가게 되는 class만 instantiate해 주면 된다.
+#### _uiLists에 메뉴를 선택하면 가게 되는 class만 OnAwake()에서 instantiate해 주면 된다.
 ##### SignMenuUi 참고.
+'''java
+@Override
+	protected void OnAwake() {
+		//initilize ui
+		
+		_uiLists.add(new SignInUi("SignIn"));
+		_uiLists.add(new SignUpMenuUi("SignUp"));
+	}
+'''
 ##
 ## 1.3. MakeUiBase
 
@@ -21,10 +30,46 @@
 ### 2.2.1 Ui에서 Server에 정보를 보내기위해 OCSF의 ChatClient를 이용해야한다. 이 ChatClient는 OCSF.client의 ClientData 안에 구현되어있다.
 #### client의 instantiate는 ClientConsole에서 이루어진다.
 #### 예제는 SignUpBaseUi의 SignUpToServer 참고.
+'''java
+protected boolean SignUpToServer() {
+		boolean isSucceed = false;
+		
+		try {
+			
+			ClientData.GetIntance().GetClient().sendToServer(SignUpJsonInfo());
+			
+			if(ClientData.GetIntance().GetClient().GetstringFromServer() == "true")
+				isSucceed = true;
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return isSucceed;
+	}
+'''
 ##
 ## 2.3 Server-File
 ### 2.3.1 Server에서 File에 저장하는 모든 내용은 Json으로 저장된다.
 ### 2.3.2 File에 접근하기위해서는 FileManager만 이용해야 하며, 모든 파일의 경로는 ../Data/* 이어야 한다.
+'''java
+enum FILE_PATH{
+		MEMBER_LIST("../Data/Member.json"),
+		APPLICATION_LIST("../Data/Applications.json"),
+		RECRUITMENT_LIST("../Data/Recruitment.json");
+		
+		private final String path;
+		
+		FILE_PATH(String path){
+			this.path = path;
+		}
+		
+		public String getPath() {
+			return path;
+		}
+	}
+'''
 
 #
 # 3. Framework
