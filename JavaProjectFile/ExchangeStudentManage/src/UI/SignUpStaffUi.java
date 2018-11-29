@@ -18,11 +18,39 @@ public class SignUpStaffUi extends SignUpBaseUi{
 	protected void GetInfoProcess() {
 		super.GetInfoProcess();
 
+		GetNumber();
+		
 		PrintDepartmentRequire();
 		GetDepartment();
 		
 		PrintSignUpDecisionRequire();
 		GetSignUpDecision();
+	}
+	
+	private void PrintNumberRequire() {
+		System.out.print("Staff Number : ");
+	}
+	
+	private void GetNumber() {
+		while(true) {
+			PrintNumberRequire();
+			
+			_number = scanner.next();
+			
+			if(isValidNumber(_number))
+				break;
+			else
+				System.out.println("직원번호는 두자리 이상이어야합니다.");
+		}
+	}
+	
+	private boolean isValidNumber(String number) {
+		boolean ret = true;
+		
+		if(number.length() < 2)
+			ret = false;
+		
+		return ret;
 	}
 	
 	private void PrintDepartmentRequire() {
