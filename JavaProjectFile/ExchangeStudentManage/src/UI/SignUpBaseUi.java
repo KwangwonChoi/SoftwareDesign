@@ -30,9 +30,22 @@ public abstract class SignUpBaseUi extends UiBase{
 		GetInfoProcess();
 		
 		if(_wantSignUp) {
-			if(!SignUpToServer())
-				System.out.println("이미 존재하는 ID입니다.");
+			
+			try {
+				
+				if(!SignUpToServer())
+					System.out.println("이미 존재하는 ID입니다.");
+				else
+					SignUpSucceed();
+				
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 		}
+		
+		
 	}
 	
 	protected void GetInfoProcess() {
@@ -55,7 +68,20 @@ public abstract class SignUpBaseUi extends UiBase{
 	}
 	
 	private void GetId() {
+		while(true) {
 		_id = scanner.next();
+		
+		if(isValidId(_id))
+			break;
+		else
+			System.out.println("아이디는 ~~ 여야 합니다.");
+		}
+	}
+	
+	private boolean isValidId(String id) {
+		boolean ret = false;
+		
+		return ret;
 	}
 	private void PrintPwRequire() {
 		System.out.print("Pw : ");
@@ -106,14 +132,29 @@ public abstract class SignUpBaseUi extends UiBase{
 		}while(true);
 	}
 
-	protected boolean SignUpToServer() {
+	protected boolean SignUpToServer() throws InterruptedException {
 		boolean isSucceed = false;
+		String serverText = null;
+		int timeCount = 0;
 		
 		try {
 			
 			ChatClient.GetInstance().sendToServer(SignUpJsonInfo());
 			
-			if(ChatClient.GetInstance().GetstringFromServer() == "true")
+			while((serverText = ChatClient.GetInstance().GetstringFromServer()) == null) {
+				timeCount++;
+				Thread.sleep(1);
+
+				if(timeCount > 1000)
+					try {
+						throw new Exception();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						System.out.println("통신에러");
+					}
+			}
+			
+			if(serverText == "true")
 				isSucceed = true;
 			
 		} catch (IOException e) {
@@ -123,6 +164,7 @@ public abstract class SignUpBaseUi extends UiBase{
 		
 		return isSucceed;
 	}
+	protected abstract void SignUpSucceed();
 	
 	protected abstract String SignUpJsonInfo();
 

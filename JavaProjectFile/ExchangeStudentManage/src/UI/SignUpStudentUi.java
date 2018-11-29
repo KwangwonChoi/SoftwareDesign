@@ -57,4 +57,10 @@ public class SignUpStudentUi extends SignUpBaseUi{
 		return json.ToJson(SEND_TYPE.SIGNUPSTUDENT, student);
 	}
 
+	@Override
+	protected void SignUpSucceed() {
+		// TODO Auto-generated method stub
+		(new StudentMainMenuUi("Student Main Menu")).UiStart();
+	}
+
 }

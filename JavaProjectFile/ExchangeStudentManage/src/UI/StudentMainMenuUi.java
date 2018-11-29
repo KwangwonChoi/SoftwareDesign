@@ -5,9 +5,9 @@ import java.util.List;
 
 import Posts.Contents;
 
-public class MainMenuUi extends MenuUiBase{
+public class StudentMainMenuUi extends MenuUiBase{
 
-	public MainMenuUi(String uiName) {
+	public StudentMainMenuUi(String uiName) {
 		super(uiName);
 		// TODO Auto-generated constructor stub
 	}
@@ -15,8 +15,7 @@ public class MainMenuUi extends MenuUiBase{
 	@Override
 	protected void OnAwake() {
 		// TODO Auto-generated method stub
-		
+		_uiLists.add(new MakeApplicationUI("응시원서접수"));
 	}
-
 
 }

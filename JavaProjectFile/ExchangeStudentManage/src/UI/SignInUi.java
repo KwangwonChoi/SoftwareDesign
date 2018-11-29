@@ -43,7 +43,7 @@ public class SignInUi extends UiBase{
 					retry = IsSignUpRetry();
 				
 				else
-					(new MainMenuUi("MainMenuUi")).UiStart();
+					(new StudentMainMenuUi("MainMenuUi")).UiStart();
 				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block

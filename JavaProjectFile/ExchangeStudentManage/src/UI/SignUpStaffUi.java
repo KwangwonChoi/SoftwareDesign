@@ -48,4 +48,9 @@ public class SignUpStaffUi extends SignUpBaseUi{
 		return json.ToJson(SEND_TYPE.SIGNUPSTAFF, staff);
 	}
 
+	@Override
+	protected void SignUpSucceed() {
+		(new StaffMainMenuUi("Staff Main Menu")).UiStart();
+	}
+
 }
