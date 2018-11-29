@@ -111,9 +111,9 @@ public abstract class SignUpBaseUi extends UiBase{
 		
 		try {
 			
-			ClientData.GetIntance().GetClient().sendToServer(SignUpJsonInfo());
+			ChatClient.GetInstance().sendToServer(SignUpJsonInfo());
 			
-			if(ClientData.GetIntance().GetClient().GetstringFromServer() == "true")
+			if(ChatClient.GetInstance().GetstringFromServer() == "true")
 				isSucceed = true;
 			
 		} catch (IOException e) {

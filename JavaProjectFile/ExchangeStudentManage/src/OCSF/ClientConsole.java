@@ -45,16 +45,7 @@ public class ClientConsole implements ChatIF
    */
   public ClientConsole(String host, int port) 
   {
-    try 
-    {
-      ClientData.GetIntance().SetClient(new ChatClient(host, port, this));
-    } 
-    catch(IOException exception) 
-    {
-      System.out.println("Error: Can't setup connection!"
-                + " Terminating client.");
-      System.exit(1);
-    }
+    ChatClient.SetInstance(host, port, this);
   }
 
   

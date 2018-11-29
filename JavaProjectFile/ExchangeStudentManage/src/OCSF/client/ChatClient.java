@@ -21,6 +21,25 @@ import com.google.gson.*;
  */
 public class ChatClient extends AbstractClient
 {
+  //SINGLE TONE *****************************************************
+	
+	protected static ChatClient _instance;
+	
+	public static ChatClient GetInstance() {
+				
+		return _instance;	
+	}
+	
+	public static void SetInstance(String host, int port, ChatIF clientUI) {
+		try {
+			
+			_instance = new ChatClient(host,port,clientUI);
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
   //Instance variables **********************************************
   
   /**
@@ -41,7 +60,7 @@ public class ChatClient extends AbstractClient
    * @param clientUI The interface type variable.
    */
   
-  public ChatClient(String host, int port, ChatIF clientUI) 
+  protected ChatClient(String host, int port, ChatIF clientUI) 
     throws IOException 
   {
     super(host, port); //Call the superclass constructor

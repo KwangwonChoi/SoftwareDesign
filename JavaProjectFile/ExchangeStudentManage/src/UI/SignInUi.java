@@ -78,10 +78,10 @@ public class SignInUi extends UiBase{
 		
 		try {
 			
-			ClientData.GetIntance().GetClient().sendToServer(loginInfo);
+			ChatClient.GetInstance().sendToServer(loginInfo);
 			
 			int timeCount = 0;
-			while((serverText = ClientData.GetIntance().GetClient().GetstringFromServer()) == null) {
+			while((serverText = ChatClient.GetInstance().GetstringFromServer()) == null) {
 				timeCount++;
 				Thread.sleep(1);
 
