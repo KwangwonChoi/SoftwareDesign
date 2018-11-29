@@ -15,7 +15,7 @@ public class StudentMainMenuUi extends MenuUiBase{
 	@Override
 	protected void OnAwake() {
 		// TODO Auto-generated method stub
-		_uiLists.add(new MakeApplicationUI("응시원서접수"));
+		_uiLists.add(new MakeApplicationUI("응시원서 접수"));
 	}
 
 }

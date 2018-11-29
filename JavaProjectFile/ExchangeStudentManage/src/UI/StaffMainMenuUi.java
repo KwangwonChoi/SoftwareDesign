@@ -10,7 +10,7 @@ public class StaffMainMenuUi extends MenuUiBase{
 	@Override
 	protected void OnAwake() {
 		// TODO Auto-generated method stub
-		_uiLists.add(new MakeRecruitmentUi("모집공고 만들기"));
+		_uiLists.add(new MakeRecruitmentUi("프로그램 만들기"));
 	}
 
 }
