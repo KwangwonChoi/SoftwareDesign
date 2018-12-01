@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import DataManage.*;
+import DataManage.StaffInfo;
 import MemberInfoManage.*;
 import OCSF.common.JsonWrapper;
 import OCSF.server.*;
@@ -132,7 +133,6 @@ public class EchoServer extends AbstractServer
   private boolean SignUp(StudentInfo stdnt) {
 	  FileManager fmgr = new FileManager();
 	  MemberList member = fmgr.GetMemberListFromFile();
-	  
 
 	  for(StaffInfo s : member.staffs ) {
 		  if(s.id.equals(stdnt.id))
