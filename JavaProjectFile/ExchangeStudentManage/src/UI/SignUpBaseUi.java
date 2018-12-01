@@ -1,6 +1,7 @@
 package UI;
 
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import OCSF.client.*;
 
@@ -50,16 +51,10 @@ public abstract class SignUpBaseUi extends UiBase{
 	
 	protected void GetInfoProcess() {
 
-		PrintIdRequire();
 		GetId();
 		
-		PrintPwRequire();
 		GetPw();
 		
-		PrintNumberRequire();
-		GetNumber();
-		
-		PrintAgeRequire();
 		GetAge();
 	}
 	
@@ -68,41 +63,74 @@ public abstract class SignUpBaseUi extends UiBase{
 	}
 	
 	private void GetId() {
-		while(true) {
-		_id = scanner.next();
-		
-		if(isValidId(_id))
-			break;
-		else
-			System.out.println("아이디는 ~~ 여야 합니다.");
+		while (true) {
+			PrintIdRequire();
+			_id = scanner.next();
+
+			if (isValidId(_id))
+				break;
+			else
+				System.out.println("");
 		}
 	}
 	
 	private boolean isValidId(String id) {
-		boolean ret = false;
+		boolean ret = true;
 		
 		return ret;
 	}
+	
 	private void PrintPwRequire() {
 		System.out.print("Pw : ");
 	}
 	
 	private void GetPw() {
-		_pw = scanner.next();
-	}
-	private void PrintNumberRequire() {
-		System.out.print("Student/Staff Number : ");
+		while(true) {
+			PrintPwRequire();
+			_pw = scanner.next();
+
+			if (isValidPw(_pw))
+				break;
+			else
+				System.out.println("비밀번호는 3자리 이상이어야 합니다.");
+		}
 	}
 	
-	private void GetNumber() {
-		_number = scanner.next();
+	private boolean isValidPw(String pw) {
+		boolean ret = true;
+		
+		if(pw.length() < 3)
+			ret = false;
+		
+		return ret;
 	}
+	
 	private void PrintAgeRequire() {
 		System.out.print("Age : ");
 	}
 	
 	private void GetAge() {
-		_age = scanner.nextInt();
+		while(true) {
+			try {
+				PrintAgeRequire();
+				_age = scanner.nextInt();
+
+				if (isValidAge(_age))
+					break;
+				else
+					System.out.println("알맞은 나이가 아닙니다.");
+			}catch(InputMismatchException e) {
+				System.out.println("유효하지 않은 값입니다.");
+			}
+		}
+	}
+	
+	private boolean isValidAge(Integer age) {
+		boolean ret = true;
+		
+		if(age < 15 || age > 200)
+			ret = false;
+		return ret;
 	}
 	
 	protected void PrintSignUpDecisionRequire() {
