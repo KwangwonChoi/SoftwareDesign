@@ -146,12 +146,6 @@ public class Staff extends Member{
 		return true;
 	}
 
-	public static void main(String[] args) {
-		if(isSubmitDueValidCheck("2017-10-10"))
-			System.out.println("true");
-		else
-			System.out.println("false");
-	}
 	/*
 	public boolean isOthersValidCheck(String input) {
 		if(input == null || input.equals(""))
