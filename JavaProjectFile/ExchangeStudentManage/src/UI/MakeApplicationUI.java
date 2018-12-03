@@ -5,13 +5,14 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
 
-import DataManage.JsonFormat.JsonWrapper;
+import DataManage.JsonFormat.*;
 import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
 import DataManage.UiManage.ObjectCarrier;
 import Member.Student;
 import OCSF.client.ChatClient;
 import Posts.APPLICATIONSTATE;
 import Posts.Application;
+import Posts.PROGRAMSTATE;
 import Posts.Program;
 
 public class MakeApplicationUI extends MakeUiBase {
@@ -20,16 +21,22 @@ public class MakeApplicationUI extends MakeUiBase {
 	private Program pro;
 	private String studyPlan;
 	private float langGrade;
+	
 	public MakeApplicationUI(String uiName) {
 		super(uiName);
 		// TODO Auto-generated constructor stub
+	}
+	
+	public MakeApplicationUI SetProgram(Program pro) {
+		this.pro = pro;
+		return this;
 	}
 	
 	@Override
 	protected void OnAwake() {
 		super.OnAwake();
 		std = (Student) ObjectCarrier.GetData("Student");
-		pro = (Program) ObjectCarrier.GetData("Program");
+		//pro = (Program) ObjectCarrier.GetData("Program");
 	}
 	
 	@Override
@@ -52,7 +59,11 @@ public class MakeApplicationUI extends MakeUiBase {
 	@Override
 	protected void SendPostsToServer() {
 		// TODO Auto-generated method stub
-		String json = JsonWrapper.ToJson(SEND_TYPE.MAKEAPPLICATION, std.MakeApplication(pro, APPLICATIONSTATE.SUBMIT, 0.0f, studyPlan, langGrade));
+		
+		std.MakeApplication(pro, APPLICATIONSTATE.SUBMIT, 0.0f, studyPlan, langGrade);
+		StudentInfo sInfo = std.GetStudentInfo();
+		
+		String json = JsonWrapper.ToJson(SEND_TYPE.MAKEAPPLICATION, sInfo);
 		
 		try {
 		
@@ -69,7 +80,7 @@ public class MakeApplicationUI extends MakeUiBase {
 	}
 	
 	private void GetStudyPlan() {
-		studyPlan = _scanner.next();
+		studyPlan = _scanner.nextLine();
 	}
 	
 	private void PrintLangGradeRequire() {
@@ -79,14 +90,15 @@ public class MakeApplicationUI extends MakeUiBase {
 	private void GetLangGrade() {
 		
 		do {
+			
 			String tmp = _scanner.next();
 			String[] str = tmp.split(",");
-			float score;
+			float score = 0;
 			
 			if(str.length != 2)
 			{
 				System.out.println("올바른 값을 입력하세요 (TOEIC,700  or TOEFL,70)");
-				break;
+				continue;
 			}
 			
 			try {
@@ -95,7 +107,7 @@ public class MakeApplicationUI extends MakeUiBase {
 				
 			}catch(NumberFormatException e) {
 				System.out.println("올바른 값을 입력하세요 (TOEIC,700  or TOEFL,70)");
-				break;
+				continue;
 			}
 			
 			switch(str[0]) {
@@ -116,6 +128,7 @@ public class MakeApplicationUI extends MakeUiBase {
 				}
 				
 				langGrade = (score / 120) * 100;
+				return;
 			
 			default : System.out.println("올바르지 않은 값입니다.");
 			}

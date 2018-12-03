@@ -148,15 +148,10 @@ public class SignUpStudentUi extends SignUpBaseUi{
 	@Override
 	protected String SignUpJsonInfo() {
 		JsonWrapper json = new JsonWrapper();
-		StudentInfo student = new StudentInfo(_id,_pw,_number,_age, _year, _major,_grade);
+		StudentInfo student = new StudentInfo(_id,_pw,_name,_number,_age, _year, _major,_grade);
 		
 		return json.ToJson(SEND_TYPE.SIGNUPSTUDENT, student);
 	}
 
-	@Override
-	protected void SignUpSucceed() {
-		// TODO Auto-generated method stub
-		(new StudentMainMenuUi("Student Main Menu")).UiStart();
-	}
 
 }

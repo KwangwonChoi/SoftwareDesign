@@ -40,6 +40,32 @@ public class Student extends Member {
 		}
 	}
 	
+	public StudentInfo GetStudentInfo() {
+		StudentInfo ret = new StudentInfo();
+		
+		ret.id = _id;
+		ret.pw = _pw;
+		ret.name = _name;
+		ret.number = _number;
+		ret.age = _age;
+		ret.year = _year;
+		ret.major = _major;
+		ret.grade = _grade;
+		ret.aList = MakeApplicationInfoList();
+		
+		return ret;
+	}
+	
+	private List<ApplicationInfo> MakeApplicationInfoList(){
+		List<ApplicationInfo> aInfoList = new ArrayList<ApplicationInfo>();
+		
+		for(Application a : aList) {
+			aInfoList.add(a.GetApplicationInfo());
+		}
+		
+		return aInfoList;
+	}
+	
 	public Application MakeApplication(Program pro, APPLICATIONSTATE state, float score, Object studyPlan, float langGrade) {
 		Application a = new Application(pro, state,  score, studyPlan, langGrade);
 		a.SetStudent(this);
@@ -55,6 +81,10 @@ public class Student extends Member {
 	
 	public String GetId() {
 		return _id;
+	}
+
+	public final List<Application> GetaList() {
+		return aList;
 	}
 
 }

@@ -48,6 +48,7 @@ public class Application {
 	
 	public ApplicationInfo GetApplicationInfo() {
 		ApplicationInfo aInfo = new ApplicationInfo();
+		aInfo.ProgramName = _program.GetName();
 		aInfo.studentId = _student.GetId();
 		aInfo.state = _state;
 		aInfo.score = _score;
@@ -58,6 +59,30 @@ public class Application {
 	
 	public void SetStudent(Student s) {
 		this._student = s;
+	}
+
+	public final Program get_program() {
+		return _program;
+	}
+
+	public final Student get_student() {
+		return _student;
+	}
+
+	public final APPLICATIONSTATE get_state() {
+		return _state;
+	}
+
+	public final float get_score() {
+		return _score;
+	}
+
+	public final Object get_studyPlan() {
+		return _studyPlan;
+	}
+
+	public final float get_langGrade() {
+		return _langGrade;
 	}
 	
 

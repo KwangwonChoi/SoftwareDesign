@@ -3,6 +3,15 @@ package UI;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import com.google.gson.Gson;
+
+import DataManage.JsonFormat.JsonWrapper;
+import DataManage.JsonFormat.StaffInfo;
+import DataManage.JsonFormat.StudentInfo;
+import DataManage.UiManage.ObjectCarrier;
+import Member.Staff;
+import Member.Student;
 import OCSF.client.*;
 
 public abstract class SignUpBaseUi extends UiBase{
@@ -10,9 +19,11 @@ public abstract class SignUpBaseUi extends UiBase{
 	protected Scanner scanner = new Scanner(System.in);
 	protected String _id;
 	protected String _pw;
+	protected String _name;
 	protected String _number;
 	protected int _age;
 	protected boolean _wantSignUp; 
+	protected UiBase nextUi;
 	
 	public SignUpBaseUi(String uiName) {
 		super(uiName);
@@ -108,6 +119,14 @@ public abstract class SignUpBaseUi extends UiBase{
 		return ret;
 	}
 	
+	private void PrintNameRequire() {
+		System.out.println("Name : ");
+	}
+	
+	private void GetName() {
+		_name = scanner.next();
+	}
+	
 	private void PrintAgeRequire() {
 		System.out.print("Age : ");
 	}
@@ -185,9 +204,24 @@ public abstract class SignUpBaseUi extends UiBase{
 					}
 			}
 			
-			if(serverText == "true")
-				isSucceed = true;
+			Gson gson = new Gson();
+			JsonWrapper jsonwrapper = JsonWrapper.FromJson(serverText);
 			
+			switch(jsonwrapper.type) {
+			case SIGNINSTUDENT : 
+				isSucceed = true;
+				nextUi = (new StudentMainMenuUi("Student Main Menu"));
+				ObjectCarrier.SaveData("Student", new Student(gson.fromJson(jsonwrapper.json, StudentInfo.class)));
+				break;
+			case SIGNINSTAFF :
+				isSucceed = true;
+				nextUi = (new StaffMainMenuUi("Staff Main Menu"));
+				ObjectCarrier.SaveData("Staff", new Staff(gson.fromJson(jsonwrapper.json, StaffInfo.class)));
+				break;
+			default :
+				System.out.println("통신 에러!");
+				break;
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -195,7 +229,10 @@ public abstract class SignUpBaseUi extends UiBase{
 		
 		return isSucceed;
 	}
-	protected abstract void SignUpSucceed();
+	
+	protected void SignUpSucceed() {
+		nextUi.UiStart();
+	}
 	
 	protected abstract String SignUpJsonInfo();
 
