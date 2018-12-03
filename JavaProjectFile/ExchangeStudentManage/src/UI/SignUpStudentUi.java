@@ -3,9 +3,10 @@ package UI;
 import java.util.InputMismatchException;
 
 import com.google.gson.Gson;
-import MemberInfoManage.StudentInfo;
-import OCSF.common.JsonWrapper;
-import OCSF.common.JsonWrapper.SEND_TYPE;
+
+import DataManage.JsonFormat.JsonWrapper;
+import DataManage.JsonFormat.StudentInfo;
+import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
 
 public class SignUpStudentUi extends SignUpBaseUi{
 

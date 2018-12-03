@@ -1,4 +1,4 @@
-package MemberInfoManage;
+package DataManage.JsonFormat;
 
 public class LoginInfo {
 

@@ -9,9 +9,13 @@ import java.util.ArrayList;
 import com.google.gson.Gson;
 
 import DataManage.*;
-import DataManage.StaffInfo;
-import MemberInfoManage.*;
-import OCSF.common.JsonWrapper;
+import DataManage.FileManage.FileManager;
+import DataManage.JsonFormat.JsonWrapper;
+import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
+import DataManage.JsonFormat.LoginInfo;
+import DataManage.JsonFormat.MemberList;
+import DataManage.JsonFormat.StaffInfo;
+import DataManage.JsonFormat.StudentInfo;
 import OCSF.server.*;
 import OCSF.server.AbstractServer;
 import OCSF.server.ConnectionToClient;
@@ -62,92 +66,94 @@ public class EchoServer extends AbstractServer
     System.out.println("Message received: " + msg + " from " + client);
     
     Gson gson = new Gson();
-    JsonWrapper receivedData = gson.fromJson(msg.toString(), JsonWrapper.class);
-    boolean isSucceed = false;
+    
+    JsonWrapper receivedData = JsonWrapper.FromJson(msg.toString());
+    
+    String toClientString = null;
     
     switch(receivedData.type) {
     case SIGNIN:
-    	isSucceed = SignIn(gson.fromJson(receivedData.json, LoginInfo.class));
+    	toClientString = SignIn(gson.fromJson(receivedData.json, LoginInfo.class));
     	break;
     case SIGNUPSTAFF:
-    	isSucceed = SignUp(gson.fromJson(receivedData.json, StaffInfo.class));
+    	toClientString = SignUp(gson.fromJson(receivedData.json, StaffInfo.class));
     	break;
     case SIGNUPSTUDENT:
-    	isSucceed = SignUp(gson.fromJson(receivedData.json, StudentInfo.class));
+    	toClientString = SignUp(gson.fromJson(receivedData.json, StudentInfo.class));
     	break;
     case MAKERECRUITMENT:
+    	
     	break;
     case MAKEAPPLICATION:
     	break;
     }
     
     try {
-		client.sendToClient(isSucceed);
+		client.sendToClient(toClientString);
 		
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
   }
-  private boolean SignIn(LoginInfo login){
+  
+  private String SignIn(LoginInfo login){
 	  FileManager fmgr = new FileManager();
 	  MemberList member = fmgr.GetMemberListFromFile();
-	  
 	  for(StaffInfo s : member.staffs) {
 		  if(s.id.equals(login.id)) {
 			  if(s.pw.equals(login.pw))
-				  return true;
-		  }
-			  
+				  return JsonWrapper.ToJson(SEND_TYPE.SIGNINSTAFF, s);
+		  }			  
 	  }
 
 	  for(StudentInfo s : member.students ) {
 		  if(s.id.equals(login.id)) {
 			  if(s.pw.equals(login.pw))
-				  return true;
+				  return JsonWrapper.ToJson(SEND_TYPE.SIGNINSTUDENT, s);
 		  }
 	  }
 	  
-	return false;
-	  
+	return null;
   }
   
-  private boolean SignUp(StaffInfo stff) {
+  private String SignUp(StaffInfo stff) {
 	  FileManager fmgr = new FileManager();
 	  MemberList member = fmgr.GetMemberListFromFile();
 
 	  for(StaffInfo s : member.staffs) {
 		  if(s.id.equals(stff.id))
-			  return false;
+			  return null;
 	  }
 
 	  for(StudentInfo s : member.students ) {
 		  if(s.id.equals(stff.id))
-			  return false;
+			  return null;
 	  }
 	  
 	  member.staffs.add(stff);
 	  fmgr.SaveMemberListToFile(member);
-	  return true;
+	  return JsonWrapper.ToJson(SEND_TYPE.SIGNUPSTAFF, stff);
   }
-  private boolean SignUp(StudentInfo stdnt) {
+  
+  private String SignUp(StudentInfo stdnt) {
 	  FileManager fmgr = new FileManager();
 	  MemberList member = fmgr.GetMemberListFromFile();
 
 	  for(StaffInfo s : member.staffs ) {
 		  if(s.id.equals(stdnt.id))
-			  return false;
+			  return null;
 	  }
 	  
 	  for(StudentInfo s : member.students ) {
 		  if(s.id.equals(stdnt.id))
-			  return false;
+			  return null;
 	  }
 
 	  
 	  member.students.add(stdnt);
 	  fmgr.SaveMemberListToFile(member);
-	  return true;
+	  return JsonWrapper.ToJson(SEND_TYPE.SIGNUPSTUDENT, stdnt);
   }
     
   /**

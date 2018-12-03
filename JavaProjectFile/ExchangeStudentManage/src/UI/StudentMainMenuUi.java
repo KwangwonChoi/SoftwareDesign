@@ -3,7 +3,6 @@ package UI;
 import java.io.File;
 import java.util.List;
 
-import Posts.Contents;
 
 public class StudentMainMenuUi extends MenuUiBase{
 

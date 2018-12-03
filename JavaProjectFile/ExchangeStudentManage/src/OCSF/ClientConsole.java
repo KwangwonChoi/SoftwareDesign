@@ -4,7 +4,8 @@ package OCSF;
 // license found at www.lloseng.com 
 
 import java.io.*;
-import MemberInfoManage.LoginInfo;
+
+import DataManage.JsonFormat.LoginInfo;
 import OCSF.client.*;
 import OCSF.common.*;
 import UI.*;
@@ -57,8 +58,7 @@ public class ClientConsole implements ChatIF
    */
   public void accept() 
   {
-	SignMenuUi signMenu = new SignMenuUi("SignMenu");
-	signMenu.UiStart();
+	new SignMenuUi("SignMenu").UiStart();
 	System.out.println("Program Ended");
   }
 

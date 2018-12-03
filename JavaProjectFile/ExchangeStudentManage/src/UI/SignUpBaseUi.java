@@ -29,9 +29,13 @@ public abstract class SignUpBaseUi extends UiBase{
 	protected void OnStart() {
 		// TODO Auto-generated method stub
 		GetInfoProcess();
+	}
+	
+	@Override
+	protected void OnFinished() {
 		
 		if(_wantSignUp) {
-			
+					
 			try {
 				
 				if(!SignUpToServer())
@@ -43,9 +47,8 @@ public abstract class SignUpBaseUi extends UiBase{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			
+	
 		}
-		
 		
 	}
 	

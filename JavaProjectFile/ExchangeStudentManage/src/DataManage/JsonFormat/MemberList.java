@@ -1,9 +1,8 @@
-package DataManage;
+package DataManage.JsonFormat;
 
 import java.util.ArrayList;
+import Member.*;
 import java.util.List;
-
-import MemberInfoManage.*;
 
 public class MemberList {
 	public List<StaffInfo> staffs;

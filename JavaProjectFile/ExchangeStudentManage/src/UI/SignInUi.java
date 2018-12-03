@@ -4,16 +4,18 @@ import java.io.IOException;
 import java.util.Scanner;
 
 import com.google.gson.Gson;
-import MemberInfoManage.*;
+
+import DataManage.JsonFormat.JsonWrapper;
+import DataManage.JsonFormat.LoginInfo;
+import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
 import OCSF.client.*;
-import OCSF.common.JsonWrapper;
-import OCSF.common.JsonWrapper.SEND_TYPE;
 
 public class SignInUi extends UiBase{
 
 	Scanner scanner = new Scanner(System.in); 
 	private String _id;
 	private String _pw;
+	private String _serverText = null;
 	
 	public SignInUi(String uiName) {
 		super(uiName);
@@ -42,8 +44,6 @@ public class SignInUi extends UiBase{
 				if(!ConnectToServer())
 					retry = IsSignUpRetry();
 				
-				else
-					(new StudentMainMenuUi("MainMenuUi")).UiStart();
 				
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
@@ -51,6 +51,14 @@ public class SignInUi extends UiBase{
 			}
 			
 		}while(retry);
+	}
+	
+	@Override
+	protected void OnFinished() {
+
+		
+		
+			(new StudentMainMenuUi("MainMenuUi")).UiStart();
 	}
 	
 	private void PrintIdRequire() {
@@ -74,14 +82,14 @@ public class SignInUi extends UiBase{
 		
 		JsonWrapper json = new JsonWrapper();
 		String loginInfo = json.ToJson(SEND_TYPE.SIGNIN, new LoginInfo(_id,_pw));
-		String serverText = null;
+
 		
 		try {
 			
 			ChatClient.GetInstance().sendToServer(loginInfo);
 			
 			int timeCount = 0;
-			while((serverText = ChatClient.GetInstance().GetstringFromServer()) == null) {
+			while((_serverText = ChatClient.GetInstance().GetstringFromServer()) == null) {
 				timeCount++;
 				Thread.sleep(1);
 
@@ -94,7 +102,7 @@ public class SignInUi extends UiBase{
 			System.out.println("통신에러!");
 		}
 		
-		if(!serverText.equals("false"))
+		if(!_serverText.equals("false"))
 			ret = true;
 		
 		return ret;

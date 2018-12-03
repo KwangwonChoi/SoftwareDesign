@@ -1,9 +1,11 @@
 package UI;
 
 import com.google.gson.Gson;
-import MemberInfoManage.StaffInfo;
+
+import DataManage.JsonFormat.JsonWrapper;
+import DataManage.JsonFormat.StaffInfo;
+import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
 import OCSF.common.*;
-import OCSF.common.JsonWrapper.SEND_TYPE;
 
 public class SignUpStaffUi extends SignUpBaseUi{
 

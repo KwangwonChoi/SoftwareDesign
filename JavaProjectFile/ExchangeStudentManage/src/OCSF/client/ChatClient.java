@@ -7,8 +7,10 @@ package OCSF.client;
 import OCSF.client.*;
 import OCSF.common.*;
 import java.io.*;
-import MemberInfoManage.LoginInfo;
+
 import com.google.gson.*;
+
+import DataManage.JsonFormat.LoginInfo;
 
 /**
  * This class overrides some of the methods defined in the abstract

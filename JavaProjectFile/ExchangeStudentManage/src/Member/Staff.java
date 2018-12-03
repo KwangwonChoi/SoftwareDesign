@@ -1,36 +1,55 @@
-package DataManage;
+package Member;
 
-import java.util.Scanner;
-import java.util.regex.Pattern;
-import java.util.spi.CalendarNameProvider;
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import javax.swing.plaf.TextUI;
+import java.util.regex.Pattern;
 
-import DataManage.Recruitment;
-import bin.Member;
+import DataManage.JsonFormat.MemberInfo;
+
+import DataManage.JsonFormat.ProgramInfo;
+import DataManage.JsonFormat.StaffInfo;
+import Posts.PROGRAMSTATE;
+import Posts.Program;
 
 public class Staff extends Member{
 	private String department;
 	private List<Program> pList;
 	
-	public Staff(String id, String pw, String number, int age, String department) {
-		super(id, pw, number, age);
+	public Staff(String id, String pw, String name, String number, int age, String department) {
+		super(id, pw, name, number, age);
 	
 		this.department = department;
 		pList = new ArrayList<Program>();
 	}
 	
-	public void MakeProgram(Program pro, Recruitment recu) {
-		pro.setRecru(recu);
-		pList.add(pro);
+	public Staff(StaffInfo stff) {
+		super((MemberInfo) stff);
+		
+		this.department = stff.department;
+		
+		pList = new ArrayList<Program>();
+		for(ProgramInfo p : stff.pList) {
+			pList.add(Program.GetProgramFromProgramInfo(p));
+		}	
 	}
 	
-	public boolean isLowestGradeValidCheck(String lowestGrade) {
+	public Program MakeProgram(String name, PROGRAMSTATE state, String submitdue, String university, String country, float lowestGrade, String useLang) {
+		Program p = new Program(name, state, submitdue, university, country, lowestGrade, useLang); 
+		p.SetStaff(this);
+		pList.add(p);
+		
+		return p;
+	}
+	
+	public Program MakeProgram(Program pro) {
+		pro.SetStaff(this);
+		pList.add(pro);
+		
+		return pro;
+	}
+	
+	public static boolean IsValidLowestGrade(String lowestGrade) {
 		double grade;
 		try {
 			grade = Double.parseDouble(lowestGrade);
@@ -48,7 +67,7 @@ public class Staff extends Member{
 		return true;
 	}
 	
-	public static boolean isSubmitDueValidCheck(String submitdue) {
+	public static boolean IsSubmitDueValidCheck(String submitdue) {
 		
 		Calendar cal = Calendar.getInstance();
 		
@@ -71,7 +90,7 @@ public class Staff extends Member{
 						
 						submitdueMonth = Integer.parseInt(str[1]);
 						
-						if(isValidMonth(submitdueMonth) == false){
+						if(IsValidMonth(submitdueMonth) == false){
 							
 							System.out.println("month error");
 							return false;
@@ -80,7 +99,7 @@ public class Staff extends Member{
 						
 						submitdueDay = Integer.parseInt(str[2]);
 						
-						if(isValidDay(submitdueMonth, submitdueDay) == false) {
+						if(IsValidDay(submitdueMonth, submitdueDay) == false) {
 							
 							System.out.println("day error");
 							return false;
@@ -103,7 +122,7 @@ public class Staff extends Member{
 		return true;
 	}
 	
-	public static boolean isValidMonth(int month) {
+	private static boolean IsValidMonth(int month) {
 		if(month < Calendar.MONTH)
 			return false;
 		if(month < 1 || month > 12)
@@ -111,7 +130,7 @@ public class Staff extends Member{
 		return true;
 	}
 	
-	public static boolean isValidDay(int month, int day) {
+	private static boolean IsValidDay(int month, int day) {
 		if(day <= Calendar.DATE)
 			return false;
 		
@@ -142,11 +161,7 @@ public class Staff extends Member{
 		return true;
 	}
 	
-	/*
-	public boolean isOthersValidCheck(String input) {
-		if(input == null || input.equals(""))
-		    return false;
-		return true;
+	public String GetId() {
+		return _id;
 	}
-	*/
 }

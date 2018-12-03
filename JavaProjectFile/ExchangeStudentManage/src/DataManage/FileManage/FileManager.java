@@ -1,4 +1,4 @@
-package DataManage;
+package DataManage.FileManage;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -11,14 +11,14 @@ import java.util.ArrayList;
 
 import com.google.gson.Gson;
 
-import MemberInfoManage.*;
+import DataManage.JsonFormat.MemberList;
 
 public class FileManager {
 
 	enum FILE_PATH{
 		MEMBER_LIST("../Data/Member.json"),
 		APPLICATION_LIST("../Data/Applications.json"),
-		RECRUITMENT_LIST("../Data/Recruitment.json");
+		RECRUITMENT_LIST("../Data/Recruitments.json");
 		
 		private final String path;
 		
