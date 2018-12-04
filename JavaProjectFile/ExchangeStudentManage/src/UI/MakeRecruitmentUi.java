@@ -122,6 +122,7 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	private void GetUniversity() {
 		university = _scanner.next();
 	}
+	//
 	private void PrintCountryRequire() {
 		System.out.println("Country : ");
 	}
