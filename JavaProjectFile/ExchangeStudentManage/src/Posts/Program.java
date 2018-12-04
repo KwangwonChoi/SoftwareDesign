@@ -1,4 +1,3 @@
-<<<<<<< HEAD:JavaProjectFile/ExchangeStudentManage/src/Posts/Program.java
 package Posts;
 
 import java.text.SimpleDateFormat;

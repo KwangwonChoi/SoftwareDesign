@@ -80,6 +80,7 @@ public class MakeApplicationUI extends MakeUiBase {
 		
 		do {
 			String tmp = _scanner.next();
+			
 			String[] str = tmp.split(",");
 			float score;
 			
