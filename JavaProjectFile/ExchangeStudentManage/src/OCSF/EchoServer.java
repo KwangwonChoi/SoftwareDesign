@@ -98,6 +98,9 @@ public class EchoServer extends AbstractServer
     	//해당 프로그램에 연결 된 모든 applicationList를 찾아준다.
     	toClientString = RequestApplication(gson.fromJson(receivedData.json, ProgramInfo.class));
     	break;
+    case EDITAPPLICATIONSCORE:
+    	toClientString = EditApplicationScore(gson.fromJson(receivedData.json, ApplicationListInfo.class));
+    	
     }
     
     try {
@@ -107,6 +110,28 @@ public class EchoServer extends AbstractServer
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+  }
+  
+  private String EditApplicationScore(ApplicationListInfo list) {
+	  FileManager fmgr = new FileManager();
+	  MemberList member = fmgr.GetMemberListFromFile();
+	  
+	  //일단 기능만 구현. 최적화는 나중에
+	  for(ApplicationInfo app : list.a) {
+		  for(StudentInfo s : member.students) {
+			  if(s.id.equals(app.studentId)) {
+				  for(ApplicationInfo a : s.aList) {
+					  if(a.ProgramName.equals(app.ProgramName))
+					  {
+						  a.state = app.state;
+						  a.score = app.score;
+					  }
+				  }
+			  }
+		  }
+	  }
+	  
+	  return JsonWrapper.ToJson(SEND_TYPE.EDITAPPLICATIONSCORE, "true");
   }
   
   private String RequestRecruitment() {

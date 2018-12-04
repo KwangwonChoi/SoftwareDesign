@@ -35,9 +35,15 @@ public class ShowApplicationListUi extends ListUiBase{
 	@Override
 	protected void GoToMenu(int menu) {
 		
-		ObjectCarrier.SaveData("Application", stdnt.GetaList().get(menu-1));
+		if(menu != 0)
+			ObjectCarrier.SaveData("Application", stdnt.GetaList().get(menu-1));
 		
 		super.GoToMenu(menu);
+	}
+	
+	@Override
+	protected void OnFinished() {
+		ObjectCarrier.SaveData("Student", stdnt);
 	}
 
 

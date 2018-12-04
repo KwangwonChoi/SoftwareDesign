@@ -42,7 +42,7 @@ public class Application {
 	public static Application GetApplicationFromApplicationInfo(ApplicationInfo a) {
 	
 		Application app = new Application(a);
-					
+		
 		return app;
 	}
 	

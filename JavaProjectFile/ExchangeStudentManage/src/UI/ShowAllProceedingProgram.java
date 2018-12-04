@@ -62,10 +62,17 @@ public class ShowAllProceedingProgram extends ListUiBase{
 		for(int i = 0 ; i < pListInfo.p.size() ; i++) {
 			ProgramInfo pInfo = pListInfo.p.get(i);
 			System.out.println(String.valueOf(i+1) + ". " + pInfo.name);
-			
-			ObjectCarrier.SaveData("Program", Program.GetProgramFromProgramInfo(pInfo));
+		
 			_uiLists.add((new MakeApplicationUI("응시원서 접수")));
 		}
+	}
+	
+	@Override
+	protected void GoToMenu(int menu) {
+		if(menu != 0)
+			ObjectCarrier.SaveData("Program", Program.GetProgramFromProgramInfo(pListInfo.p.get(menu-1)));
+		
+		super.GoToMenu(menu);
 	}
 
 	

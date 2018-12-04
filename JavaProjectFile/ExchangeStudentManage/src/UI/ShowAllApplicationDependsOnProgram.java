@@ -69,8 +69,18 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 			ApplicationInfo aInfo = aListInfo.a.get(i);
 			System.out.println(String.valueOf(i+1) + ". " + aInfo.studentId);
 			
-			ObjectCarrier.SaveData("Application", Application.GetApplicationFromApplicationInfo(aInfo));
-			_uiLists.add((new MakeApplicationUI("응시원서 접수")));
+			_uiLists.add((new ShowApplicationSetScoreUi("응시원서 보기")));
 		}
+	}
+	
+	@Override
+	protected void GoToMenu(int menu) {
+		
+		if(menu != 0) {
+			ObjectCarrier.SaveData("ApplicationList", aListInfo);
+			ObjectCarrier.SaveData("index", menu-1);
+		}
+		
+		super.GoToMenu(menu);
 	}
 }

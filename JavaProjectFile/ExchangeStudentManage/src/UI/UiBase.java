@@ -16,7 +16,7 @@ public abstract class UiBase {
 	}
 	
 	private void PrintUiName() {
-		System.out.println("¢º This is " + _uiName + " Ui");
+		System.out.println("\n\n¢º This is " + _uiName + " Ui");
 	}
 	
 	protected abstract void OnAwake(); 
