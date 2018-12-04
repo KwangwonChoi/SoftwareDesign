@@ -69,6 +69,8 @@ public abstract class SignUpBaseUi extends UiBase{
 		
 		GetPw();
 		
+		GetName();
+		
 		GetAge();
 	}
 	
@@ -106,25 +108,39 @@ public abstract class SignUpBaseUi extends UiBase{
 			if (isValidPw(_pw))
 				break;
 			else
-				System.out.println("비밀번호는 3자리 이상이어야 합니다.");
+				System.out.println("비밀번호는 3자리 이상 20자리 이하이어야 합니다.");
 		}
 	}
 	
 	private boolean isValidPw(String pw) {
 		boolean ret = true;
 		
-		if(pw.length() < 3)
+		if(pw.length() < 3 || pw.length() > 20)
 			ret = false;
 		
 		return ret;
 	}
 	
 	private void PrintNameRequire() {
-		System.out.println("Name : ");
+		System.out.print("Name : ");
 	}
 	
 	private void GetName() {
-		_name = scanner.next();
+		while(true) {
+			PrintNameRequire();
+			_name = scanner.next();
+			
+			if (isValidName(_name))
+				break;
+			else
+				System.out.println("");
+		}
+	}
+	
+	private boolean isValidName(String name) {
+		boolean ret = true;
+		
+		return ret;
 	}
 	
 	private void PrintAgeRequire() {
