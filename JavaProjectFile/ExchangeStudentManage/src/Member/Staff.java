@@ -5,33 +5,59 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import DataManage.JsonFormat.ApplicationInfo;
 import DataManage.JsonFormat.MemberInfo;
 
 import DataManage.JsonFormat.ProgramInfo;
 import DataManage.JsonFormat.StaffInfo;
+import Posts.Application;
 import Posts.PROGRAMSTATE;
 import Posts.Program;
 
 public class Staff extends Member{
-	private String department;
+	private String _department;
 	private List<Program> pList;
 	
 	public Staff(String id, String pw, String name, String number, int age, String department) {
 		super(id, pw, name, number, age);
 	
-		this.department = department;
+		this._department = department;
 		pList = new ArrayList<Program>();
 	}
 	
 	public Staff(StaffInfo stff) {
 		super((MemberInfo) stff);
 		
-		this.department = stff.department;
+		this._department = stff.department;
 		
 		pList = new ArrayList<Program>();
 		for(ProgramInfo p : stff.pList) {
 			pList.add(Program.GetProgramFromProgramInfo(p));
 		}	
+	}
+	
+	public StaffInfo GetStaffInfo() {
+		StaffInfo ret = new StaffInfo();
+		
+		ret.id = _id;
+		ret.pw = _pw;
+		ret.name = _name;
+		ret.number = _number;
+		ret.age = _age;
+		ret.department = _department;
+		ret.pList = MakeProgramInfoList();
+		
+		return ret;
+	}
+	
+	private List<ProgramInfo> MakeProgramInfoList(){
+		List<ProgramInfo> pInfoList = new ArrayList<ProgramInfo>();
+		
+		for(Program p : pList) {
+			pInfoList.add(p.GetProgramInfo());
+		}
+		
+		return pInfoList;
 	}
 	
 	public Program MakeProgram(String name, PROGRAMSTATE state, String submitdue, String university, String country, float lowestGrade, String useLang) {
@@ -163,5 +189,9 @@ public class Staff extends Member{
 	
 	public String GetId() {
 		return _id;
+	}
+	
+	public List<Program> GetProgramList(){
+		return pList;
 	}
 }

@@ -10,11 +10,19 @@ public class StudentInfo extends MemberInfo{
 	
 	public List<ApplicationInfo> aList;
 
-	public StudentInfo(String id, String pw, String number, int age, int year, String major, float grade) {
-		super(id,pw,number,age);
+	public StudentInfo() {
+		
+	}
+	
+	public StudentInfo(String id, String pw, String name, String number, int age, int year, String major, float grade) {
+		super(id,pw, name, number,age);
 		
 		this.year = year;
 		this.major = major;
 		this.grade = grade;
+		
+		aList = new ArrayList<ApplicationInfo>();
 	}
+	
+	
 }

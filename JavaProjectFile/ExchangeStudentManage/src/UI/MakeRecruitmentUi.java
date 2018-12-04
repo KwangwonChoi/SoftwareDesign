@@ -4,13 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import DataManage.JsonFormat.JsonWrapper;
+import DataManage.JsonFormat.*;
 import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
 import DataManage.UiManage.ObjectCarrier;
 import Member.Staff;
 import OCSF.client.ChatClient;
 import Posts.APPLICATIONSTATE;
 import Posts.PROGRAMSTATE;
+import Posts.Program;
 
 
 public class MakeRecruitmentUi extends MakeUiBase{
@@ -36,6 +37,23 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	@Override
 	protected void OnStart() {
 		
+		PrintNameRequire();
+		GetName();
+		
+		PrintSubmitdueRequire();
+		GetSubmitDue();
+		
+		PrintUniversityRequire();
+		GetUniversity();
+		
+		PrintCountryRequire();
+		GetCountry();
+		
+		PrintLowestGradeRequire();
+		GetLowestGrade();
+		
+		PrintUseLangRequire();
+		GetUseLang();
 	}
 	
 	@Override
@@ -47,7 +65,11 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	@Override
 	protected void SendPostsToServer() {
 		// TODO Auto-generated method stub
-		String json = JsonWrapper.ToJson(SEND_TYPE.MAKERECRUITMENT, staff.MakeProgram(programName, PROGRAMSTATE.RECRUIT, submitdue, university, country, lowestGrade, useLang));
+		
+		staff.MakeProgram(programName, PROGRAMSTATE.RECRUIT, submitdue, university, country, lowestGrade, useLang);
+		StaffInfo sInfo = staff.GetStaffInfo();
+		
+		String json = JsonWrapper.ToJson(SEND_TYPE.MAKERECRUITMENT, sInfo);
 		
 		try {
 		
@@ -58,5 +80,43 @@ public class MakeRecruitmentUi extends MakeUiBase{
 			e.printStackTrace();
 		}
 	}
+	
+	private void PrintNameRequire() {
+		System.out.println("Program Name : ");
+	}
+	private void GetName() {
+		programName = _scanner.next();
+	}
+	private void PrintSubmitdueRequire() {
+		System.out.println("Submit Due : ");
+	}
+	private void GetSubmitDue() {
+		submitdue = _scanner.next();
+	}
+	private void PrintUniversityRequire() {
+		System.out.println("University : ");
+	}
+	private void GetUniversity() {
+		university = _scanner.next();
+	}
+	private void PrintCountryRequire() {
+		System.out.println("Country : ");
+	}
+	private void GetCountry() {
+		country = _scanner.next();
+	}
+	private void PrintLowestGradeRequire() {
+		System.out.println("LowestGrade : ");
+	}
+	private void GetLowestGrade() {
+		lowestGrade = _scanner.nextFloat();
+	}
+	private void PrintUseLangRequire() {
+		System.out.println("UseLang : ");
+	} 
+	private void GetUseLang() {
+		useLang = _scanner.next();
+	}
+	
 
 }

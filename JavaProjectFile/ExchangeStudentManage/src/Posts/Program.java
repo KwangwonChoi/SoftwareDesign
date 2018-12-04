@@ -1,4 +1,3 @@
-<<<<<<< HEAD:JavaProjectFile/ExchangeStudentManage/src/Posts/Program.java
 package Posts;
 
 import java.text.SimpleDateFormat;
@@ -83,5 +82,51 @@ public class Program {
 		// TODO Auto-generated method stub
 		this._staff = staff;
 	}
+	
+	public String GetName() {
+		return _name;
+	}
+
+	public final Staff get_staff() {
+		return _staff;
+	}
+
+	public final String get_name() {
+		return _name;
+	}
+
+	public final PROGRAMSTATE get_state() {
+		return _state;
+	}
+
+	public final String get_submitdue() {
+		return _submitdue;
+	}
+
+	public final String get_university() {
+		return _university;
+	}
+
+	public final String get_country() {
+		return _country;
+	}
+
+	public final float get_lowestGrade() {
+		return _lowestGrade;
+	}
+
+	public final String get_useLang() {
+		return _useLang;
+	}
+
+	public final String get_datetime() {
+		return _datetime;
+	}
+
+	public final List<Application> get_aList() {
+		return _aList;
+	}
+	
+	
 	
 }

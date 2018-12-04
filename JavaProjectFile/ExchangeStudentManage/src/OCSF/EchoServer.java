@@ -10,10 +10,14 @@ import com.google.gson.Gson;
 
 import DataManage.*;
 import DataManage.FileManage.FileManager;
+import DataManage.JsonFormat.ApplicationInfo;
+import DataManage.JsonFormat.ApplicationListInfo;
 import DataManage.JsonFormat.JsonWrapper;
 import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
 import DataManage.JsonFormat.LoginInfo;
 import DataManage.JsonFormat.MemberList;
+import DataManage.JsonFormat.ProgramInfo;
+import DataManage.JsonFormat.ProgramListInfo;
 import DataManage.JsonFormat.StaffInfo;
 import DataManage.JsonFormat.StudentInfo;
 import OCSF.server.*;
@@ -82,9 +86,17 @@ public class EchoServer extends AbstractServer
     	toClientString = SignUp(gson.fromJson(receivedData.json, StudentInfo.class));
     	break;
     case MAKERECRUITMENT:
-    	
+    	toClientString = MakeRecruitment(gson.fromJson(receivedData.json, StaffInfo.class));
     	break;
     case MAKEAPPLICATION:
+    	toClientString = MakeApplication(gson.fromJson(receivedData.json, StudentInfo.class));
+    	break;
+    case REQUESTRECRUITMENT:
+    	toClientString = RequestRecruitment();
+    	break;
+    case REQUESTAPPLICATION:
+    	//해당 프로그램에 연결 된 모든 applicationList를 찾아준다.
+    	toClientString = RequestApplication(gson.fromJson(receivedData.json, ProgramInfo.class));
     	break;
     }
     
@@ -95,6 +107,37 @@ public class EchoServer extends AbstractServer
 		// TODO Auto-generated catch block
 		e.printStackTrace();
 	}
+  }
+  
+  private String RequestRecruitment() {
+	  FileManager fmgr = new FileManager();
+	  MemberList member = fmgr.GetMemberListFromFile();
+	  ProgramListInfo pListInfo = new ProgramListInfo();
+	  
+	  for(StaffInfo s : member.staffs) {
+		  for(ProgramInfo p : s.pList) {
+			  pListInfo.p.add(p);
+		  }
+	  }
+	  
+	  return JsonWrapper.ToJson(SEND_TYPE.REQUESTRECRUITMENT, pListInfo);
+  }
+  
+  private String RequestApplication(ProgramInfo pro) {
+	  FileManager fmgr = new FileManager();
+	  MemberList member = fmgr.GetMemberListFromFile();
+	  
+	  ApplicationListInfo aListInfo = new ApplicationListInfo();
+	  
+	  for(StudentInfo s: member.students) {
+		  for(ApplicationInfo a : s.aList) {
+			  if(a.ProgramName.equals(pro.name)) {
+				  aListInfo.a.add(a);
+			  }
+		  }
+	  }
+	  
+	  return JsonWrapper.ToJson(SEND_TYPE.REQUESTAPPLICATION, aListInfo);
   }
   
   private String SignIn(LoginInfo login){
@@ -114,7 +157,7 @@ public class EchoServer extends AbstractServer
 		  }
 	  }
 	  
-	return null;
+	return JsonWrapper.ToJson(SEND_TYPE.SIGNIN, "Error");
   }
   
   private String SignUp(StaffInfo stff) {
@@ -123,12 +166,12 @@ public class EchoServer extends AbstractServer
 
 	  for(StaffInfo s : member.staffs) {
 		  if(s.id.equals(stff.id))
-			  return null;
+			  return JsonWrapper.ToJson(SEND_TYPE.ERROR, "Error");
 	  }
 
 	  for(StudentInfo s : member.students ) {
 		  if(s.id.equals(stff.id))
-			  return null;
+			  return JsonWrapper.ToJson(SEND_TYPE.ERROR, "Error");
 	  }
 	  
 	  member.staffs.add(stff);
@@ -142,12 +185,12 @@ public class EchoServer extends AbstractServer
 
 	  for(StaffInfo s : member.staffs ) {
 		  if(s.id.equals(stdnt.id))
-			  return null;
+			  return JsonWrapper.ToJson(SEND_TYPE.ERROR, "Error");
 	  }
 	  
 	  for(StudentInfo s : member.students ) {
 		  if(s.id.equals(stdnt.id))
-			  return null;
+			  return JsonWrapper.ToJson(SEND_TYPE.ERROR, "Error");
 	  }
 
 	  
@@ -156,6 +199,35 @@ public class EchoServer extends AbstractServer
 	  return JsonWrapper.ToJson(SEND_TYPE.SIGNUPSTUDENT, stdnt);
   }
     
+  private String MakeRecruitment(StaffInfo staff) {
+	  FileManager fmgr = new FileManager();
+	  MemberList member = fmgr.GetMemberListFromFile();
+	  
+	  for(StaffInfo s: member.staffs) {
+		  if(s.id.equals(staff.id)) {
+			  s.pList = staff.pList;
+			  break;
+		  }
+	  }
+	  
+	  fmgr.SaveMemberListToFile(member);
+	  return JsonWrapper.ToJson(SEND_TYPE.MAKERECRUITMENT, staff);
+  }
+  
+  private String MakeApplication(StudentInfo stdnt) {
+	  FileManager fmgr = new FileManager();
+	  MemberList member = fmgr.GetMemberListFromFile();
+	  
+	  for(StudentInfo s : member.students) {
+		  if(s.id.equals(stdnt.id)) {
+			  s.aList = stdnt.aList;
+			  break;
+		  }
+	  }
+	  
+	  fmgr.SaveMemberListToFile(member);
+	  return JsonWrapper.ToJson(SEND_TYPE.MAKEAPPLICATION, stdnt);
+  }
   /**
    * This method overrides the one in the superclass.  Called
    * when the server starts listening for connections.

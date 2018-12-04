@@ -1,5 +1,6 @@
 package DataManage.JsonFormat;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import Posts.PROGRAMSTATE;
@@ -16,6 +17,6 @@ public class ProgramInfo {
 	public float lowestGrade;
 	public String useLang;
 	public String datetime;	
-	public List<ApplicationInfo> aList;
+	public List<ApplicationInfo> aList = new ArrayList<ApplicationInfo>();
 	
 }
