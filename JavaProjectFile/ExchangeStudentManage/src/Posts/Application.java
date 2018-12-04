@@ -11,12 +11,15 @@ public class Application {
 	private Program _program;
 	private String _programName;
 	private Student _student;
+	private String _studentId;
 	private APPLICATIONSTATE _state;
 	private float _score;
 	private Object _studyPlan;
 	private float _langGrade;
 	
-	public Application(Program program, APPLICATIONSTATE state, float score, Object studyPlan, float langGrade) {
+	public Application(Student std, Program program, APPLICATIONSTATE state, float score, Object studyPlan, float langGrade) {
+		this._student = std;
+		this._studentId = std.GetId();
 		this._program = program;
 		this._programName = program.get_name();
 		this._state = state;
@@ -27,6 +30,7 @@ public class Application {
 	
 	public Application(ApplicationInfo a) {
 		
+		this._studentId = a.studentId;
 		this._programName = a.ProgramName;
 		this._state = a.state;
 		this._score = a.score;
@@ -52,8 +56,8 @@ public class Application {
 	
 	public ApplicationInfo GetApplicationInfo() {
 		ApplicationInfo aInfo = new ApplicationInfo();
-		aInfo.ProgramName = _program.GetName();
-		aInfo.studentId = _student.GetId();
+		aInfo.ProgramName = _programName;
+		aInfo.studentId = _studentId;
 		aInfo.state = _state;
 		aInfo.score = _score;
 		aInfo.studyPlan = _studyPlan;

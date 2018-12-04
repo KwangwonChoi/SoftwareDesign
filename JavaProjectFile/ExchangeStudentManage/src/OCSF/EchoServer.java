@@ -134,6 +134,8 @@ public class EchoServer extends AbstractServer
 			  if(a.ProgramName.equals(pro.name)) {
 				  aListInfo.a.add(a);
 			  }
+			  
+			  break;
 		  }
 	  }
 	  

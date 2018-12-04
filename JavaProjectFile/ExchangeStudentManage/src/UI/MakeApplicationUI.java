@@ -26,17 +26,12 @@ public class MakeApplicationUI extends MakeUiBase {
 		super(uiName);
 		// TODO Auto-generated constructor stub
 	}
-	
-	public MakeApplicationUI SetProgram(Program pro) {
-		this.pro = pro;
-		return this;
-	}
-	
+		
 	@Override
 	protected void OnAwake() {
 		super.OnAwake();
 		std = (Student) ObjectCarrier.GetData("Student");
-		//pro = (Program) ObjectCarrier.GetData("Program");
+		pro = (Program) ObjectCarrier.GetData("Program");
 	}
 	
 	@Override

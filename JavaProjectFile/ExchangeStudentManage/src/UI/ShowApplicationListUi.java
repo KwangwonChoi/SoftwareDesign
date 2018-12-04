@@ -28,9 +28,16 @@ public class ShowApplicationListUi extends ListUiBase{
 			Application a = stdnt.GetaList().get(i);
 			System.out.println(String.valueOf(i+1) + ". " + a);
 			
-			ObjectCarrier.SaveData("Application", a);
 			_uiLists.add((new ShowApplicationUi(a.get_programName())));
 		}
+	}
+	
+	@Override
+	protected void GoToMenu(int menu) {
+		
+		ObjectCarrier.SaveData("Application", stdnt.GetaList().get(menu-1));
+		
+		super.GoToMenu(menu);
 	}
 
 

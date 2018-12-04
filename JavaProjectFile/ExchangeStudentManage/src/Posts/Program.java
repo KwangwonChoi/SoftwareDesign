@@ -11,6 +11,7 @@ import Member.Staff;
 
 public class Program {
 	private Staff _staff;
+	private String _staffId;
 	private String _name;
 	private PROGRAMSTATE _state;
 	private String _submitdue;
@@ -48,7 +49,7 @@ public class Program {
 	
 	public ProgramInfo GetProgramInfo() {
 		ProgramInfo pInfo = new ProgramInfo();
-		pInfo.staffId = _staff.GetId();
+		pInfo.staffId = _staffId;
 		pInfo.name = this._name;
 		pInfo.country = this._country;
 		pInfo.datetime = this._datetime;
@@ -81,6 +82,7 @@ public class Program {
 	public void SetStaff(Staff staff) {
 		// TODO Auto-generated method stub
 		this._staff = staff;
+		this._staffId = staff.GetStaffInfo().id;
 	}
 	
 	public String GetName() {

@@ -6,6 +6,7 @@ import com.google.gson.Gson;
 
 import DataManage.JsonFormat.JsonWrapper;
 import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
+import DataManage.UiManage.ObjectCarrier;
 import DataManage.JsonFormat.ProgramInfo;
 import DataManage.JsonFormat.ProgramListInfo;
 import OCSF.client.ChatClient;
@@ -35,7 +36,7 @@ public class ShowAllProceedingProgram extends ListUiBase{
 				
 				Thread.sleep(1);
 					
-				if(timeCount > 1000000)
+				if(timeCount > 1000)
 					throw new Exception();
 			}
 			
@@ -62,7 +63,8 @@ public class ShowAllProceedingProgram extends ListUiBase{
 			ProgramInfo pInfo = pListInfo.p.get(i);
 			System.out.println(String.valueOf(i+1) + ". " + pInfo.name);
 			
-			_uiLists.add((new MakeApplicationUI("응시원서 접수")).SetProgram(Program.GetProgramFromProgramInfo(pInfo)));
+			ObjectCarrier.SaveData("Program", Program.GetProgramFromProgramInfo(pInfo));
+			_uiLists.add((new MakeApplicationUI("응시원서 접수")));
 		}
 	}
 

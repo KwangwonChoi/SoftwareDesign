@@ -67,7 +67,7 @@ public class Student extends Member {
 	}
 	
 	public Application MakeApplication(Program pro, APPLICATIONSTATE state, float score, Object studyPlan, float langGrade) {
-		Application a = new Application(pro, state,  score, studyPlan, langGrade);
+		Application a = new Application(this, pro, state,  score, studyPlan, langGrade);
 		a.SetStudent(this);
 		aList.add(a);
 		

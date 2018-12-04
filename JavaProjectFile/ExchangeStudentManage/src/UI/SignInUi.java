@@ -49,6 +49,8 @@ public class SignInUi extends UiBase{
 				
 				if(!ConnectToServer())
 					retry = IsSignUpRetry();
+				else
+					retry = false;
 				
 				
 			} catch (InterruptedException e) {
@@ -144,6 +146,5 @@ public class SignInUi extends UiBase{
 		else
 			return false;
 	}
-
 	
 }

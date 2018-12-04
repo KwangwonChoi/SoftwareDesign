@@ -34,6 +34,13 @@ public class ShowRecruitmentUi extends UiBase {
 		System.out.println("Lowest Grade : " + program.get_lowestGrade());
 		
 		System.out.println("Use Language : " + program.get_useLang());
+		
+	}
+	
+	@Override
+	protected void OnFinished() {
+		ObjectCarrier.SaveData("Program", program);
+		(new ShowAllApplicationDependsOnProgram("응시원서 확인")).UiStart();
 	}
 
 }
