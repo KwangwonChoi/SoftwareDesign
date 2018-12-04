@@ -10,6 +10,8 @@ import com.google.gson.Gson;
 
 import DataManage.*;
 import DataManage.FileManage.FileManager;
+import DataManage.JsonFormat.ApplicationInfo;
+import DataManage.JsonFormat.ApplicationListInfo;
 import DataManage.JsonFormat.JsonWrapper;
 import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
 import DataManage.JsonFormat.LoginInfo;
@@ -91,9 +93,11 @@ public class EchoServer extends AbstractServer
     	break;
     case REQUESTRECRUITMENT:
     	toClientString = RequestRecruitment();
+    	break;
     case REQUESTAPPLICATION:
     	//해당 프로그램에 연결 된 모든 applicationList를 찾아준다.
-    	//toClientString = RequestApplication(gson.fromJson(receivedData.json, classOfT));
+    	toClientString = RequestApplication(gson.fromJson(receivedData.json, ProgramInfo.class));
+    	break;
     }
     
     try {
@@ -117,6 +121,23 @@ public class EchoServer extends AbstractServer
 	  }
 	  
 	  return JsonWrapper.ToJson(SEND_TYPE.REQUESTRECRUITMENT, pListInfo);
+  }
+  
+  private String RequestApplication(ProgramInfo pro) {
+	  FileManager fmgr = new FileManager();
+	  MemberList member = fmgr.GetMemberListFromFile();
+	  
+	  ApplicationListInfo aListInfo = new ApplicationListInfo();
+	  
+	  for(StudentInfo s: member.students) {
+		  for(ApplicationInfo a : s.aList) {
+			  if(a.ProgramName.equals(pro.name)) {
+				  aListInfo.a.add(a);
+			  }
+		  }
+	  }
+	  
+	  return JsonWrapper.ToJson(SEND_TYPE.REQUESTAPPLICATION, aListInfo);
   }
   
   private String SignIn(LoginInfo login){
@@ -145,12 +166,12 @@ public class EchoServer extends AbstractServer
 
 	  for(StaffInfo s : member.staffs) {
 		  if(s.id.equals(stff.id))
-			  return null;
+			  return JsonWrapper.ToJson(SEND_TYPE.ERROR, "Error");
 	  }
 
 	  for(StudentInfo s : member.students ) {
 		  if(s.id.equals(stff.id))
-			  return null;
+			  return JsonWrapper.ToJson(SEND_TYPE.ERROR, "Error");
 	  }
 	  
 	  member.staffs.add(stff);
@@ -164,12 +185,12 @@ public class EchoServer extends AbstractServer
 
 	  for(StaffInfo s : member.staffs ) {
 		  if(s.id.equals(stdnt.id))
-			  return null;
+			  return JsonWrapper.ToJson(SEND_TYPE.ERROR, "Error");
 	  }
 	  
 	  for(StudentInfo s : member.students ) {
 		  if(s.id.equals(stdnt.id))
-			  return null;
+			  return JsonWrapper.ToJson(SEND_TYPE.ERROR, "Error");
 	  }
 
 	  

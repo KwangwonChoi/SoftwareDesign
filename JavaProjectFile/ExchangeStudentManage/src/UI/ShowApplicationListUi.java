@@ -29,7 +29,7 @@ public class ShowApplicationListUi extends ListUiBase{
 			System.out.println(String.valueOf(i+1) + ". " + a);
 			
 			ObjectCarrier.SaveData("Application", a);
-			_uiLists.add((new ShowApplicationUi(a.get_program().get_name())));
+			_uiLists.add((new ShowApplicationUi(a.get_programName())));
 		}
 	}
 

@@ -20,7 +20,7 @@ public class ShowAllProceedingProgram extends ListUiBase{
 	}
 
 	private String _serverText = null;
-	private int timeCount = 0;
+	private long timeCount = 0;
 	private ProgramListInfo pListInfo;
 	
 	@Override
@@ -35,7 +35,7 @@ public class ShowAllProceedingProgram extends ListUiBase{
 				
 				Thread.sleep(1);
 					
-				if(timeCount > 1000)
+				if(timeCount > 1000000)
 					throw new Exception();
 			}
 			

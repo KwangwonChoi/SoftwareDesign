@@ -9,6 +9,7 @@ import Member.Student;
 public class Application {
 	 
 	private Program _program;
+	private String _programName;
 	private Student _student;
 	private APPLICATIONSTATE _state;
 	private float _score;
@@ -17,6 +18,7 @@ public class Application {
 	
 	public Application(Program program, APPLICATIONSTATE state, float score, Object studyPlan, float langGrade) {
 		this._program = program;
+		this._programName = program.get_name();
 		this._state = state;
 		this._score = score;
 		this._studyPlan = studyPlan;
@@ -25,10 +27,12 @@ public class Application {
 	
 	public Application(ApplicationInfo a) {
 		
+		this._programName = a.ProgramName;
 		this._state = a.state;
 		this._score = a.score;
 		this._studyPlan = a.studyPlan;
 		this._langGrade = a.langGrade;		
+		
 	}
 	
 	public static Application GetApplicationFromApplicationInfo(ApplicationInfo a) {
@@ -85,5 +89,8 @@ public class Application {
 		return _langGrade;
 	}
 	
+	public final String get_programName() {
+		return _programName;
+	}
 
 }

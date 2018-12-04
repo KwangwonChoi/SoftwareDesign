@@ -201,6 +201,7 @@ public abstract class SignUpBaseUi extends UiBase{
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						System.out.println("통신에러");
+						return false;
 					}
 			}
 			
@@ -208,12 +209,12 @@ public abstract class SignUpBaseUi extends UiBase{
 			JsonWrapper jsonwrapper = JsonWrapper.FromJson(serverText);
 			
 			switch(jsonwrapper.type) {
-			case SIGNINSTUDENT : 
+			case SIGNUPSTUDENT : 
 				isSucceed = true;
 				nextUi = (new StudentMainMenuUi("Student Main Menu"));
 				ObjectCarrier.SaveData("Student", new Student(gson.fromJson(jsonwrapper.json, StudentInfo.class)));
 				break;
-			case SIGNINSTAFF :
+			case SIGNUPSTAFF :
 				isSucceed = true;
 				nextUi = (new StaffMainMenuUi("Staff Main Menu"));
 				ObjectCarrier.SaveData("Staff", new Staff(gson.fromJson(jsonwrapper.json, StaffInfo.class)));
