@@ -130,6 +130,29 @@ enum FILE_PATH{
 	}
 ```
 
+##
+## 3.4 UI-UI
+### 3.4.1 Ui에 필요한 정보는 ObjectCarrier를 이용하여 이동한다.
+```java
+public class ObjectCarrier {
+
+	private static Map<String, Object> _objlists = new HashMap<String, Object>();
+	
+	public static void SaveData(String key, Object obj) {
+		_objlists.put(key, obj);
+	}
+	
+	public static Object GetData(String key) {
+		Object ret = _objlists.get(key);
+		
+		_objlists.remove(key);
+		
+		return ret;
+	}
+	
+}
+```
+
 #
 # 4. Framework
 ## 4.1 OCSF
