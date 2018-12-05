@@ -41,27 +41,40 @@ public void handleMessageFromClient
     System.out.println("Message received: " + msg + " from " + client);
     
     Gson gson = new Gson();
-    JsonWrapper receivedData = gson.fromJson(msg.toString(), JsonWrapper.class);
-    boolean isSucceed = false;
+    
+    JsonWrapper receivedData = JsonWrapper.FromJson(msg.toString());
+    
+    String toClientString = null;
     
     switch(receivedData.type) {
     case SIGNIN:
-    	isSucceed = SignIn(gson.fromJson(receivedData.json, LoginInfo.class));
+    	toClientString = SignIn(gson.fromJson(receivedData.json, LoginInfo.class));
     	break;
     case SIGNUPSTAFF:
-    	isSucceed = SignUp(gson.fromJson(receivedData.json, StaffInfo.class));
+    	toClientString = SignUp(gson.fromJson(receivedData.json, StaffInfo.class));
     	break;
     case SIGNUPSTUDENT:
-    	isSucceed = SignUp(gson.fromJson(receivedData.json, StudentInfo.class));
+    	toClientString = SignUp(gson.fromJson(receivedData.json, StudentInfo.class));
     	break;
     case MAKERECRUITMENT:
+    	toClientString = MakeRecruitment(gson.fromJson(receivedData.json, StaffInfo.class));
     	break;
     case MAKEAPPLICATION:
+    	toClientString = MakeApplication(gson.fromJson(receivedData.json, StudentInfo.class));
     	break;
+    case REQUESTRECRUITMENT:
+    	toClientString = RequestRecruitment();
+    	break;
+    case REQUESTAPPLICATION:
+    	//해당 프로그램에 연결 된 모든 applicationList를 찾아준다.
+    	toClientString = RequestApplication(gson.fromJson(receivedData.json, ProgramInfo.class));
+    	break;
+    case EDITAPPLICATIONSCORE:
+    	toClientString = EditApplicationScore(gson.fromJson(receivedData.json, ProgramInfo.class));
     }
     
     try {
-		client.sendToClient(isSucceed);
+		client.sendToClient(toClientString);
 		
 	} catch (IOException e) {
 		// TODO Auto-generated catch block
