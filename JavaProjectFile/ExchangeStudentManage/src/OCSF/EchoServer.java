@@ -99,7 +99,6 @@ public class EchoServer extends AbstractServer
     	break;
     case EDITAPPLICATIONSCORE:
     	toClientString = EditApplicationScore(gson.fromJson(receivedData.json, ProgramInfo.class));
-    	
     }
     
     try {
