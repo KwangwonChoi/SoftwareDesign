@@ -22,6 +22,7 @@ import DataManage.JsonFormat.StudentInfo;
 import OCSF.server.*;
 import OCSF.server.AbstractServer;
 import OCSF.server.ConnectionToClient;
+import Posts.PROGRAMSTATE;
 
 /**
  * This class overrides some of the methods in the abstract 
@@ -150,7 +151,8 @@ public class EchoServer extends AbstractServer
 	  
 	  for(StaffInfo s : member.staffs) {
 		  for(ProgramInfo p : s.pList) {
-			  pListInfo.p.add(p);
+			  if(p.state == PROGRAMSTATE.RECRUIT)
+				  pListInfo.p.add(p);
 		  }
 	  }
 	  

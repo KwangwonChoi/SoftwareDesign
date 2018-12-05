@@ -106,27 +106,27 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 		indexMap.clear();
 		
 		int cnt = 1;
-		for(int i = 0 ; i < pro.get_aList().size() ; i++) {
-			Application a = pro.get_aList().get(i);
+		
+		if(pro.get_state() == PROGRAMSTATE.DOCUEMNTVIEW || pro.get_state() == PROGRAMSTATE.INTERVIEWREVIEW) {
+			for(int i = 0 ; i < pro.get_aList().size() ; i++) {
+				Application a = pro.get_aList().get(i);
+				
+				if(a.get_state() != APPLICATIONSTATE.UNPASS && a.get_state() != APPLICATIONSTATE.EVALUATED) {
+					System.out.println(String.valueOf(cnt++) + ". " + a.get_student().GetId());
+					indexMap.add(i);
+					_uiLists.add((new ShowApplicationSetScoreUi("응시원서 보기")));
+				}
+			}
 			
-			if(a.get_state() != APPLICATIONSTATE.UNPASS && a.get_state() != APPLICATIONSTATE.EVALUATED) {
-				System.out.println(String.valueOf(cnt++) + ". " + a.get_student().GetId());
-				indexMap.add(i);
-				_uiLists.add((new ShowApplicationSetScoreUi("응시원서 보기")));
+			if(cnt == 1) {
+				System.out.println("이대로 저장하시겠습니까 ?(Y : 0, N : any)");
 			}
 		}
-		
-		if(		pro.get_state() != PROGRAMSTATE.DOCUEMNTVIEW &&
-				pro.get_state() != PROGRAMSTATE.INTERVIEWREVIEW &&
-				pro.get_state() != PROGRAMSTATE.RECRUIT
-				) 
-		{
-			System.out.println("점수 입력이 마감된 프로그램 입니다. 0을 입력하세요.");
+		else {
+			System.out.println("점수입력이 종료된 프로그램 입니다.");
 		}
 		
-		else if(cnt == 1) {
-			System.out.println("이대로 저장하시겠습니까 ?(Y : 0, N : any)");
-		}
+		
 		
 	}
 	

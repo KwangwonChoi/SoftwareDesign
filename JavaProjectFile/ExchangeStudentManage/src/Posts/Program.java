@@ -96,11 +96,11 @@ public class Program {
 		ApplicationListSort();
 		int aliveNum = _finalPassNum * 2;
 		
-		for(int i = 0 ; i < _finalPassNum && i < _aList.size() ; i++) {
+		for(int i = 0 ; i < aliveNum && i < _aList.size() ; i++) {
 			_aList.get(i).SetState(APPLICATIONSTATE.UNDERREVIEW);
 		}
 		
-		for(int i = _finalPassNum * 2; i < _aList.size() ; i++) {
+		for(int i = aliveNum; i < _aList.size() ; i++) {
 			_aList.get(i).SetState(APPLICATIONSTATE.UNPASS);
 		}
 	}
@@ -109,11 +109,11 @@ public class Program {
 		ApplicationListSort();
 		int aliveNum = _finalPassNum;
 		
-		for(int i = 0 ; i < _finalPassNum && i < _aList.size() ; i++) {
+		for(int i = 0 ; i < aliveNum && i < _aList.size() ; i++) {
 			_aList.get(i).SetState(APPLICATIONSTATE.PASS);
 		}
 		
-		for(int i = _finalPassNum * 2; i < _aList.size() ; i++) {
+		for(int i = aliveNum; i < _aList.size() ; i++) {
 			_aList.get(i).SetState(APPLICATIONSTATE.UNPASS);
 		}
 		

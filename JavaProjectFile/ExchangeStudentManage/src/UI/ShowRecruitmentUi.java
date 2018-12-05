@@ -43,6 +43,7 @@ public class ShowRecruitmentUi extends UiBase {
 		
 		System.out.println("Use Language : " + program.get_useLang());
 		
+		System.out.println("Program State : " + program.get_state());
 	}
 	
 	@Override
