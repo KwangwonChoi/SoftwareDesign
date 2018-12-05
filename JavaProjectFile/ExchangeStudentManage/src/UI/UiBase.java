@@ -9,13 +9,12 @@ public abstract class UiBase {
 	}
 	
 	public void UiStart() {
-		PrintUiName();
 		OnAwake();
 		OnStart();
 		OnFinished();
 	}
 	
-	private void PrintUiName() {
+	protected void PrintUiName() {
 		System.out.println("\n\n¢º This is " + _uiName + " Ui");
 	}
 	

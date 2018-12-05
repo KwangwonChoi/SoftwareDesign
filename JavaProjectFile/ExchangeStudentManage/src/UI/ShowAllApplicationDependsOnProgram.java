@@ -1,6 +1,8 @@
 package UI;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.google.gson.Gson;
 
@@ -9,9 +11,12 @@ import DataManage.JsonFormat.JsonWrapper;
 import DataManage.JsonFormat.ProgramInfo;
 import DataManage.JsonFormat.ProgramListInfo;
 import DataManage.UiManage.ObjectCarrier;
+import Member.Staff;
 import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
 import OCSF.client.ChatClient;
+import Posts.APPLICATIONSTATE;
 import Posts.Application;
+import Posts.PROGRAMSTATE;
 import Posts.Program;
 
 public class ShowAllApplicationDependsOnProgram extends ListUiBase{
@@ -23,13 +28,18 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 
 	private String _serverText;
 	private int timeCount;
+	private Staff staff;
+	private int programIndex;
 	private Program pro;
+	private List<Integer> indexMap = new ArrayList<Integer>();
 	
 	@Override
 	protected void OnAwake() {
 		// TODO Auto-generated method stub
 		try {
-			pro = (Program) ObjectCarrier.GetData("Program");
+			staff = (Staff) ObjectCarrier.GetData("Staff");
+			programIndex = (int) ObjectCarrier.GetData("ProgramIndex");
+			pro = staff.GetProgramList().get(programIndex);
 			
 			ChatClient.GetInstance().sendToServer(JsonWrapper.ToJson(SEND_TYPE.REQUESTAPPLICATION, pro.GetProgramInfo()));
 			
@@ -38,7 +48,7 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 				
 				Thread.sleep(1);
 					
-				if(timeCount > 1000)
+				if(timeCount > 100000)
 					throw new Exception();
 			}
 			
@@ -59,21 +69,71 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 	}
 	
 	@Override
+	protected void OnFinished() {
+		
+		while((_serverText = ChatClient.GetInstance().GetstringFromServer()) == null) {
+			timeCount++;
+			
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+				
+			if(timeCount > 100000)
+				try {
+					throw new Exception();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		}
+		
+		for(Program p : staff.GetProgramList()) {
+			if(p.get_name().equals(pro.get_name()))
+				p.SetState(pro.get_state());
+		}
+		ObjectCarrier.SaveData("Staff", staff);
+		
+	}
+	
+	@Override
 	protected void PrintMenus() {
 		// TODO Auto-generated method stub
 		
+		_uiLists.clear();
+		indexMap.clear();
+		
+		int cnt = 1;
 		for(int i = 0 ; i < pro.get_aList().size() ; i++) {
 			Application a = pro.get_aList().get(i);
-			System.out.println(String.valueOf(i+1) + ". " + a.get_student().GetId());
 			
-			_uiLists.add((new ShowApplicationSetScoreUi("응시원서 보기")));
+			if(a.get_state() != APPLICATIONSTATE.UNPASS && a.get_state() != APPLICATIONSTATE.EVALUATED) {
+				System.out.println(String.valueOf(cnt++) + ". " + a.get_student().GetId());
+				indexMap.add(i);
+				_uiLists.add((new ShowApplicationSetScoreUi("응시원서 보기")));
+			}
 		}
+		
+		if(		pro.get_state() != PROGRAMSTATE.DOCUEMNTVIEW &&
+				pro.get_state() != PROGRAMSTATE.INTERVIEWREVIEW &&
+				pro.get_state() != PROGRAMSTATE.RECRUIT
+				) 
+		{
+			System.out.println("점수 입력이 마감된 프로그램 입니다. 0을 입력하세요.");
+		}
+		
+		else if(cnt == 1) {
+			System.out.println("이대로 저장하시겠습니까 ?(Y : 0, N : any)");
+		}
+		
 	}
 	
 	private void SendToServer() {
 		
 		try {
-			
+			pro.NextState();
 			ChatClient.GetInstance().sendToServer(JsonWrapper.ToJson(SEND_TYPE.EDITAPPLICATIONSCORE, pro.GetProgramInfo()));
 			
 		} catch (IOException e) {
@@ -81,17 +141,31 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 			e.printStackTrace();
 		}
 	}
+	@Override
+	protected int GetMenu() {
+		
+		if(_uiLists.size() != 0)
+			return super.GetMenu();
+		else 
+			return scanner.nextInt();
+		
+	}
 	
 	@Override
 	protected void GoToMenu(int menu) {
 		
-		if(menu != 0) {
-			ObjectCarrier.SaveData("Program", pro);
-			ObjectCarrier.SaveData("index", menu-1);
+		if(_uiLists.size() > 0) {
+			if(menu != 0) {
+				ObjectCarrier.SaveData("Program", pro);
+				ObjectCarrier.SaveData("index", indexMap.get(menu-1));
+			}
+			
+			super.GoToMenu(menu);
+			
+			pro = (Program)ObjectCarrier.GetData("Program");
 		}
 		
-		super.GoToMenu(menu);
-		
-		pro = (Program)ObjectCarrier.GetData("Program");
+		else if(menu == 0)
+			SendToServer();
 	}
 }

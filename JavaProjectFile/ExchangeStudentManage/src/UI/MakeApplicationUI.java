@@ -1,18 +1,16 @@
 package UI;
 
-import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.List;
+import java.util.Scanner;
 
-import DataManage.JsonFormat.*;
+import DataManage.JsonFormat.JsonWrapper;
 import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
+import DataManage.JsonFormat.StudentInfo;
 import DataManage.UiManage.ObjectCarrier;
 import Member.Student;
 import OCSF.client.ChatClient;
 import Posts.APPLICATIONSTATE;
 import Posts.Application;
-import Posts.PROGRAMSTATE;
 import Posts.Program;
 
 public class MakeApplicationUI extends MakeUiBase {
@@ -21,9 +19,11 @@ public class MakeApplicationUI extends MakeUiBase {
 	private Program pro;
 	private String studyPlan;
 	private float langGrade;
+	private Scanner scan;
 	
 	public MakeApplicationUI(String uiName) {
 		super(uiName);
+		scan = new Scanner(System.in);
 		// TODO Auto-generated constructor stub
 	}
 		
@@ -36,10 +36,10 @@ public class MakeApplicationUI extends MakeUiBase {
 	
 	@Override
 	protected void OnStart() {
-		// TODO Auto-generated method stub
+		PrintUiName();
 		PrintStudyplanRequire();
 		GetStudyPlan();
-		
+
 		PrintLangGradeRequire();
 		GetLangGrade();
 	}
@@ -69,13 +69,13 @@ public class MakeApplicationUI extends MakeUiBase {
 			e.printStackTrace();
 		}
 	}
-
+	
 	private void PrintStudyplanRequire() {
 		System.out.println("수학 계획서를 작성하시오 (30자 내외) : ");
 	}
 	
 	private void GetStudyPlan() {
-		studyPlan = _scanner.nextLine();
+		studyPlan = scan.nextLine();
 	}
 	
 	private void PrintLangGradeRequire() {
@@ -86,7 +86,7 @@ public class MakeApplicationUI extends MakeUiBase {
 		
 		do {
 			
-			String tmp = _scanner.next();
+			String tmp = scan.next();
 			String[] str = tmp.split(",");
 			float score = 0;
 			

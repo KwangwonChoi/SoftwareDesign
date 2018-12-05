@@ -38,6 +38,8 @@ public class SignInUi extends UiBase{
 		
 		boolean retry = false;
 		
+		PrintUiName();
+		
 		do {
 			
 			PrintIdRequire();

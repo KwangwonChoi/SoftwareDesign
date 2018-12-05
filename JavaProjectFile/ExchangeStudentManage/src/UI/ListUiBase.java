@@ -3,10 +3,10 @@ package UI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
+/**/
 public abstract class ListUiBase extends UiBase{
 	
-	private Scanner scanner = new Scanner(System.in);
+	protected Scanner scanner = new Scanner(System.in);
 	
 	public ListUiBase(String uiName) {
 		super(uiName);
@@ -20,6 +20,7 @@ public abstract class ListUiBase extends UiBase{
 		int menu;
 		
 		do {
+		PrintUiName();
 		PrintMenus();
 		
 		menu = GetMenu();

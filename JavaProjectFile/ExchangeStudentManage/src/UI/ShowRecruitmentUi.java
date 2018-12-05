@@ -2,6 +2,7 @@ package UI;
 
 import DataManage.UiManage.ObjectCarrier;
 import Member.Staff;
+import Posts.PROGRAMSTATE;
 import Posts.Program;
 
 public class ShowRecruitmentUi extends UiBase {
@@ -22,10 +23,12 @@ public class ShowRecruitmentUi extends UiBase {
 		programIndex = (int)ObjectCarrier.GetData("ProgramIndex");
 		program = staff.GetProgramList().get(programIndex);
 	}
-
+	
 	@Override
 	protected void OnStart() {
 		// TODO Auto-generated method stub
+		PrintUiName();
+		
 		System.out.println("Program Name : " + program.get_name());
 		
 		System.out.println("Write Date : " + program.get_datetime());
@@ -44,9 +47,23 @@ public class ShowRecruitmentUi extends UiBase {
 	
 	@Override
 	protected void OnFinished() {
-		ObjectCarrier.SaveData("Program", program);
+		//ObjectCarrier.SaveData("Program", program);
+		ObjectCarrier.SaveData("ProgramIndex", programIndex);
 		ObjectCarrier.SaveData("Staff", staff);
-		(new ShowAllApplicationDependsOnProgram("응시원서 확인")).UiStart();
+		
+		
+		if(program.get_state() != PROGRAMSTATE.RECRUIT)
+			(new ShowAllApplicationDependsOnProgram("응시원서 확인")).UiStart();
+		else
+		{
+			int isChangeStage = 0; 
+			java.util.Scanner scanner = new java.util.Scanner(System.in);
+			isChangeStage = scanner.nextInt();
+			if(isChangeStage == 1234) {
+				program.NextState();
+			}
+		}
+	
 	}
 
 }

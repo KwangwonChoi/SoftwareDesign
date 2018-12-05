@@ -22,6 +22,8 @@ public class ShowApplicationUi extends UiBase{
 	@Override
 	protected void OnStart() {
 		// TODO Auto-generated method stub
+		PrintUiName();
+		
 		System.out.println("Program Name : " + application.get_programName());
 		
 		System.out.println("Current State : " + application.get_state().toString());

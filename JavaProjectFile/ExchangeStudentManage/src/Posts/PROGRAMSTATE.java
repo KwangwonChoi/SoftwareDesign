@@ -6,5 +6,5 @@ public enum PROGRAMSTATE {
 	INTERVIEWREVIEW, //면접검토
 	RESULTANNOUNCE, //결과발표
 	PROGRESS, // 프로그램 진행
-	END // 프로그램 종료
+	END; // 프로그램 종료
 }

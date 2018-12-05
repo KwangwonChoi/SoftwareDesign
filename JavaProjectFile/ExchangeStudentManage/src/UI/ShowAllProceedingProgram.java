@@ -65,6 +65,7 @@ public class ShowAllProceedingProgram extends ListUiBase{
 		
 			_uiLists.add((new MakeApplicationUI("응시원서 접수")));
 		}
+		System.out.println("Enter your menu. if you want to exit, enter Num 0.");
 	}
 	
 	@Override

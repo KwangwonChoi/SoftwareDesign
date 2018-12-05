@@ -124,12 +124,23 @@ public class EchoServer extends AbstractServer
 					  {
 						  a.state = app.state;
 						  a.score = app.score;
+						  break;
 					  }
 				  }
 			  }
 		  }
 	  }
 	  
+	  for(StaffInfo staffInfo : member.staffs) {
+		  for(ProgramInfo pInfo : staffInfo.pList) {
+			  if(pInfo.name.equals(p.name)) {
+				  pInfo.state = p.state;
+				  break;
+			  }
+		  }
+	  }
+	  
+	  fmgr.SaveMemberListToFile(member);
 	  return JsonWrapper.ToJson(SEND_TYPE.EDITAPPLICATIONSCORE, "true");
   }
   
