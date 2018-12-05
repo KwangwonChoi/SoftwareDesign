@@ -93,48 +93,6 @@ public class Program {
 			return 1;
 		}
 	}
-	
-	public static int isSubmitDueValidCheck(String submitdue) {
-		Calendar cal = Calendar.getInstance();
-		int curYear = cal.get(Calendar.YEAR);
-		String pattern = "^\\d{4}-\\d{1,2}-\\d{1,2}$";
-		int submitdueYear, submitdueMonth, submitdueDay;
-		int curMonth, curDay;
-		curMonth = cal.get(Calendar.MONTH) + 1;
-		curDay = cal.get(Calendar.DATE);
-		
-		if(Pattern.matches(pattern, submitdue)) {
-			try {
-					String[] str = submitdue.split("-");
-					submitdueYear = Integer.parseInt(str[0]);
-					if(submitdueYear == curYear || submitdueYear == curYear+1) {
-						submitdueMonth = Integer.parseInt(str[1]);
-						if(isValidMonth(submitdueMonth, curMonth) == false){
-							System.out.println("month error");
-							return 2;
-						}
-						submitdueDay = Integer.parseInt(str[2]);
-						if(isValidDay(submitdueMonth, submitdueDay, curDay) == false) {
-							System.out.println("day error");
-							return 2;
-						}
-					}
-					else {
-						System.err.println("제출 기한의 년도는 올해 또는 내년으로 해주십시오.");
-						return 2;	
-					}
-				
-			} catch(NumberFormatException e) {
-				System.out.println("년, 월, 일은 숫자를 입력해주세요.");
-				return 2;
-			}
-		}
-		else {
-			System.err.println("yyyy-mm-dd 형식으로 입력해주세요.");
-			return 2;
-		}
-		return 0;
-	}
 
 	public static int isValidUniversity(String uni) {
 		uni = uni.replaceAll(" ", "");
@@ -215,10 +173,72 @@ public class Program {
 		return 0;
 	}
 	
+	public static int isSubmitDueValidCheck(String submitdue) {
+		Calendar cal = Calendar.getInstance();
+		int curYear = cal.get(Calendar.YEAR);
+		String pattern = "^\\d{4}-\\d{1,2}-\\d{1,2}$";
+		int submitdueYear, submitdueMonth, submitdueDay;
+		int curMonth, curDay;
+		curMonth = cal.get(Calendar.MONTH) + 1;
+		curDay = cal.get(Calendar.DATE);
+		
+		if(Pattern.matches(pattern, submitdue)) {
+			try {
+					String[] str = submitdue.split("-");
+					submitdueYear = Integer.parseInt(str[0]);
+					submitdueDay = Integer.parseInt(str[2]);
+					if(submitdueYear == curYear || submitdueYear == curYear+1) {
+						submitdueMonth = Integer.parseInt(str[1]);
+						submitdueDay = Integer.parseInt(str[2]);
+						
+						if(submitdueYear == curYear) {
+							if(isValidMonth(submitdueMonth, curMonth) == false) {
+								System.out.println("month error");
+								return 2;
+							}
+							
+							if(isValidDay(submitdueMonth, submitdueDay, curDay) == false) {
+								System.out.println("day error");
+								return 2;
+							}
+						}
+						else{ 
+							if(isValidMonth(submitdueMonth) == false){
+								System.out.println("month error");
+								return 2;
+							}
+							if(isValidDay(submitdueMonth, submitdueDay) == false) {
+								System.out.println("day error");
+								return 2;
+							}
+						}
+					}
+					else {
+						System.err.println("제출 기한의 년도는 올해 또는 내년으로 해주십시오.");
+						return 2;	
+					}
+				
+			} catch(NumberFormatException e) {
+				System.out.println("년, 월, 일은 숫자를 입력해주세요.");
+				return 2;
+			}
+		}
+		else {
+			System.err.println("yyyy-mm-dd 형식으로 입력해주세요.");
+			return 2;
+		}
+		return 0;
+	}
+	
 	public static boolean isValidMonth(int month, int curMonth) {
 		if(month < curMonth)
 			return false;
 		if(month < 1 || month > 12)
+			return false;
+		return true;
+	}
+	public static boolean isValidMonth(int month) {
+		if(month < 1 || month > 10)
 			return false;
 		return true;
 	}
@@ -228,7 +248,14 @@ public class Program {
 			System.err.println("제출 기한은 금일이거나 이전일 수 없습니다.");
 			return false;	
 		}
-		
+		return CheckMonth(month, day);
+	}
+	
+	public static boolean isValidDay(int month, int day) {
+		return CheckMonth(month, day);
+	}
+	
+	public static boolean CheckMonth(int month, int day) {
 		if(month == 1 && (day < 1 || day > 31))
 			return false;
 		else if(month == 2 && (day < 1 || day > 28))
@@ -306,13 +333,11 @@ public class Program {
 		return _aList;
 	}
 	
-	public static void main(String args[]) {
-		int ret = isValidName("남상윤");
+	/*public static void main(String args[]) {
+		int ret = isSubmitDueValidCheck("2018-12-29");
 		if(ret == 0)
 			System.out.println("good");
 		else
 			System.out.println("bad");
-	}
-	
-	
+	}*/	
 }
