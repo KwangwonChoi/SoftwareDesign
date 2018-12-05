@@ -1,29 +1,30 @@
 package UI;
 
-import java.io.File;
 import java.io.IOException;
-import java.text.ParseException;
-import java.util.List;
+import java.util.Scanner;
 
-import DataManage.JsonFormat.*;
+import DataManage.JsonFormat.JsonWrapper;
 import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
+import DataManage.JsonFormat.StudentInfo;
 import DataManage.UiManage.ObjectCarrier;
 import Member.Student;
 import OCSF.client.ChatClient;
 import Posts.APPLICATIONSTATE;
 import Posts.Application;
-import Posts.PROGRAMSTATE;
 import Posts.Program;
 
 public class MakeApplicationUI extends MakeUiBase {
 
 	private Student std;
 	private Program pro;
+	private String appProgName;
 	private String studyPlan;
 	private float langGrade;
+	private Scanner scan;
 	
 	public MakeApplicationUI(String uiName) {
 		super(uiName);
+		scan = new Scanner(System.in);
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -41,10 +42,16 @@ public class MakeApplicationUI extends MakeUiBase {
 	
 	@Override
 	protected void OnStart() {
-		// TODO Auto-generated method stub
+		int ret = 0;
+		do {
+			PrintProgramName();
+			GetProgramName();
+			ret = Application.isValidName(this.appProgName);
+		}while(ret != 0);
+		
 		PrintStudyplanRequire();
 		GetStudyPlan();
-		
+
 		PrintLangGradeRequire();
 		GetLangGrade();
 	}
@@ -74,24 +81,36 @@ public class MakeApplicationUI extends MakeUiBase {
 			e.printStackTrace();
 		}
 	}
+	
+	private void PrintProgramName() {
+		System.out.println("지원하는 프로그램 이름을 입력하세요.");
+	}
 
 	private void PrintStudyplanRequire() {
 		System.out.println("수학 계획서를 작성하시오 (30자 내외) : ");
 	}
 	
 	private void GetStudyPlan() {
-		studyPlan = _scanner.nextLine();
+		studyPlan = scan.nextLine();
 	}
 	
 	private void PrintLangGradeRequire() {
 		System.out.println("영어 성적을 입력하시오 (ex. TOEIC,900 or TOEFL,110. TOEIC,TOEFL만 인정.)");
 	}
 	
+	private void GetProgramName() {
+		appProgName = scan.nextLine();
+	}
+	
+	private void PrintInfo() {
+		System.out.println(this.appProgName + " " + this.studyPlan + " " + this.langGrade);
+	}
+	
 	private void GetLangGrade() {
 		
 		do {
 			
-			String tmp = _scanner.next();
+			String tmp = scan.next();
 			String[] str = tmp.split(",");
 			float score = 0;
 			
@@ -135,6 +154,12 @@ public class MakeApplicationUI extends MakeUiBase {
 			
 		}while(true);
 		
+	}
+	
+	public static void main(String[] args) {
+		MakeApplicationUI test = new MakeApplicationUI("test");
+		test.OnStart();
+		test.PrintInfo();
 	}
 	
 }

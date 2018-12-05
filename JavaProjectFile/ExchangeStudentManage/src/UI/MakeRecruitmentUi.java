@@ -2,7 +2,9 @@ package UI;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Scanner;
 
 import DataManage.JsonFormat.*;
 import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
@@ -23,9 +25,11 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	private String country;
 	private float lowestGrade;
 	private String useLang;
+	private Scanner _scanner;
 
 	public MakeRecruitmentUi(String uiName) {
 		super(uiName);
+		_scanner = new Scanner(System.in);
 		// TODO Auto-generated constructor stub
 	}
 	@Override
@@ -36,24 +40,43 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	
 	@Override
 	protected void OnStart() {
-		
+	String temp = null;
+	int ret = 0;
+		do {
 		PrintNameRequire();
 		GetName();
+		ret = Program.isValidName(this.programName);
+		}while(ret != 0);
 		
-		PrintSubmitdueRequire();
-		GetSubmitDue();
+		do {
+			PrintSubmitdueRequire();
+			GetSubmitDue();
+			ret = Program.isSubmitDueValidCheck(this.submitdue);
+		}while(ret != 0);
 		
-		PrintUniversityRequire();
-		GetUniversity();
+		do {
+			PrintUniversityRequire();
+			GetUniversity();
+			ret = Program.isValidUniversity(this.university);
+		}while(ret != 0);
 		
-		PrintCountryRequire();
-		GetCountry();
+		do {
+			PrintCountryRequire();
+			GetCountry();
+			ret = Program.isValidCountry(this.country);
+		}while(ret != 0);
 		
-		PrintLowestGradeRequire();
-		GetLowestGrade();
+		do {
+			PrintLowestGradeRequire();
+			temp = GetLowestGrade();
+			ret = Program.isLowestGradeValidCheck(temp);
+		}while(ret != 0);
 		
-		PrintUseLangRequire();
-		GetUseLang();
+		do {
+			PrintUseLangRequire();
+			GetUseLang();
+			ret = Program.isValidUselang(this.useLang);
+		}while(ret != 0);
 	}
 	
 	@Override
@@ -99,6 +122,7 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	private void GetUniversity() {
 		university = _scanner.next();
 	}
+	//
 	private void PrintCountryRequire() {
 		System.out.println("Country : ");
 	}
@@ -108,8 +132,8 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	private void PrintLowestGradeRequire() {
 		System.out.println("LowestGrade : ");
 	}
-	private void GetLowestGrade() {
-		lowestGrade = _scanner.nextFloat();
+	private String GetLowestGrade() {
+		return _scanner.next();
 	}
 	private void PrintUseLangRequire() {
 		System.out.println("UseLang : ");
@@ -117,6 +141,9 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	private void GetUseLang() {
 		useLang = _scanner.next();
 	}
-	
+	public static void main(String[] args) {
+		MakeRecruitmentUi test = new MakeRecruitmentUi("test");
+		test.OnStart();
+	}
 
 }
