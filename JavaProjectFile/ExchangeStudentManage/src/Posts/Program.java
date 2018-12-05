@@ -3,16 +3,20 @@ package Posts;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
+import DataManage.JsonFormat.ApplicationInfo;
 import DataManage.JsonFormat.ProgramInfo;
 import Member.Staff;
 
 public class Program {
 	private Staff _staff;
+	private String _staffId;
 	private String _name;					// valid check error number : 1
 	private PROGRAMSTATE _state;
 	private String _submitdue;  			// valid check error number : 2
@@ -22,10 +26,12 @@ public class Program {
 	private float _lowestGrade;				// valid check error number : 6 
 	private String _datetime;										
 	private SimpleDateFormat _transFormat;
+	private int _finalPassNum; 				// valid check error number : 7
 	private List<Application> _aList;
 	
-	public Program(String name, PROGRAMSTATE state, String submitdue, String university, String country, float lowestGrade, String useLang) {
-		this._name = name;											
+
+	public Program(String name, PROGRAMSTATE state, String submitdue, String university, String country, float lowestGrade, String useLang, int finalPassNum) {
+		this._name = name;
 		this._state = state;
 		this._submitdue = submitdue;
 		this._university = university;
@@ -34,6 +40,7 @@ public class Program {
 		this._useLang = useLang;
 		this._transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		this._datetime = _transFormat.format(new Date());
+		this._finalPassNum = finalPassNum;
 		this._aList = new ArrayList<Application>(); 
 	}
 	
@@ -46,11 +53,17 @@ public class Program {
 		this._lowestGrade = pInfo.lowestGrade;
 		this._useLang = pInfo.useLang;
 		this._datetime = pInfo.datetime;
+		this._finalPassNum = pInfo.finalPassNum;
+		
+		_aList = new ArrayList<Application>();
+		for(ApplicationInfo a : pInfo.aList) {
+			_aList.add(new Application(a));
+		}
 	}
 	
 	public ProgramInfo GetProgramInfo() {
 		ProgramInfo pInfo = new ProgramInfo();
-		pInfo.staffId = _staff.GetId();
+		pInfo.staffId = _staffId;
 		pInfo.name = this._name;
 		pInfo.country = this._country;
 		pInfo.datetime = this._datetime;
@@ -59,17 +72,62 @@ public class Program {
 		pInfo.university = this._university;
 		pInfo.submitdue = this._submitdue;
 		pInfo.useLang = this._useLang;
+		pInfo.finalPassNum = this._finalPassNum;
+		
+		pInfo.aList = new ArrayList<ApplicationInfo>();
+		for(Application a : _aList) {
+			pInfo.aList.add(a.GetApplicationInfo());
+		}
+	
+		
 		return pInfo;
+	}	
+	
+	private void ApplicationListSort() {
+		
+		Collections.sort(_aList, new Comparator<Application>() {
+			public int compare(Application app1, Application app2) {
+				return (app1.get_score() > app2.get_score()) ? -1 : (app1.get_score() > app2.get_score()) ? 1 : 0; 
+			}
+		});
+	}
+	
+	public void FinishDocumentScoreFillout() {
+		ApplicationListSort();
+		int aliveNum = _finalPassNum * 2;
+		
+		for(int i = 0 ; i < aliveNum && i < _aList.size() ; i++) {
+			_aList.get(i).SetState(APPLICATIONSTATE.UNDERREVIEW);
+		}
+		
+		for(int i = aliveNum; i < _aList.size() ; i++) {
+			_aList.get(i).SetState(APPLICATIONSTATE.UNPASS);
+		}
+	}
+	
+	public void FinishInterviewScoreFillout() {
+		ApplicationListSort();
+		int aliveNum = _finalPassNum;
+		
+		for(int i = 0 ; i < aliveNum && i < _aList.size() ; i++) {
+			_aList.get(i).SetState(APPLICATIONSTATE.PASS);
+		}
+		
+		for(int i = aliveNum; i < _aList.size() ; i++) {
+			_aList.get(i).SetState(APPLICATIONSTATE.UNPASS);
+		}
+		
 	}
 	
 	public static Program GetProgramFromProgramInfo(ProgramInfo pInfo) {
 		
-		return new Program(pInfo.name, pInfo.state, pInfo.submitdue, pInfo.university, pInfo.country, pInfo.lowestGrade, pInfo.useLang); 
+		return new Program(pInfo); 
+		
 	}
 	
 	public static Program GetProgramFromProgramInfo(ProgramInfo pInfo, Staff staff) {
 		
-		Program p = new Program(pInfo.name, pInfo.state, pInfo.submitdue, pInfo.university, pInfo.country, pInfo.lowestGrade, pInfo.useLang);
+		Program p = new Program(pInfo.name, pInfo.state, pInfo.submitdue, pInfo.university, pInfo.country, pInfo.lowestGrade, pInfo.useLang, pInfo.finalPassNum);
 		p.SetStaff(staff);
 		return p;
 	} 
@@ -84,14 +142,49 @@ public class Program {
 		if(Pattern.matches("^[a-zA-Z°¡-ÆR]*$", name))
 			return 0;
 		
-		if(name.matches("^[0-9]*$")) {
-			System.err.println("ÀÌ¸§¿¡´Â ¼ýÀÚ°¡ Æ÷ÇÔµÉ ¼ö ¾ø½À´Ï´Ù.");
-			return 1;
+		return 0;
+	}
+	
+	public static int isSubmitDueValidCheck(String submitdue) {
+		Calendar cal = Calendar.getInstance();
+		int curYear = cal.get(Calendar.YEAR);
+		String pattern = "^\\d{4}-\\d{1,2}-\\d{1,2}$";
+		int submitdueYear, submitdueMonth, submitdueDay;
+		int curMonth, curDay;
+		curMonth = cal.get(Calendar.MONTH) + 1;
+		curDay = cal.get(Calendar.DATE);
+		
+		if(Pattern.matches(pattern, submitdue)) {
+			try {
+					String[] str = submitdue.split("-");
+					submitdueYear = Integer.parseInt(str[0]);
+					if(submitdueYear == curYear || submitdueYear == curYear+1) {
+						submitdueMonth = Integer.parseInt(str[1]);
+						if(isValidMonth(submitdueMonth, curMonth) == false){
+							System.out.println("month error");
+							return 2;
+						}
+						submitdueDay = Integer.parseInt(str[2]);
+						if(isValidDay(submitdueMonth, submitdueDay, curDay) == false) {
+							System.out.println("day error");
+							return 2;
+						}
+					}
+					else {
+						System.err.println("Á¦Ãâ ±âÇÑÀÇ ³âµµ´Â ¿ÃÇØ ¶Ç´Â ³»³âÀ¸·Î ÇØÁÖ½Ê½Ã¿À.");
+						return 2;	
+					}
+				
+			} catch(NumberFormatException e) {
+				System.out.println("³â, ¿ù, ÀÏÀº ¼ýÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+				return 2;
+			}
 		}
 		else {
-			System.err.println("ÀÌ¸§¿¡´Â Æ¯¼ö¹®ÀÚ¸¦ Æ÷ÇÔÇÒ ¼ö ¾ø½À´Ï´Ù.");
-			return 1;
+			System.err.println("yyyy-mm-dd Çü½ÄÀ¸·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
+			return 2;
 		}
+		return 0;
 	}
 
 	public static int isValidUniversity(String uni) {
@@ -154,12 +247,10 @@ public class Program {
 		}
 	}
 	
-	public static int isLowestGradeValidCheck(String lowestGrade) {
-		double grade;
-		lowestGrade = lowestGrade.replaceAll(" ", "");
+	public static int isLowestGradeValidCheck(float lowestGrade) {
+		
 		try {
-			grade = Double.parseDouble(lowestGrade);
-			if(grade < 0 || grade > 4.5) { 
+			if(lowestGrade < 0 || lowestGrade > 4.5) { 
 				System.err.println("ÇÐÁ¡ ¹üÀ§ : 0.0 ~ 4.5");
 				return 6;
 			}
@@ -167,78 +258,19 @@ public class Program {
 		} catch (NumberFormatException e) {
 			return 6;
 		} catch( NullPointerException e) {
-			System.err.println("ÀÔ·Â Çü½ÄÀÌ ´Ù¸¨´Ï´Ù.(Ex. 3.3)");
+			
 			return 6;
 		}
 		return 0;
 	}
 	
-	public static int isSubmitDueValidCheck(String submitdue) {
-		Calendar cal = Calendar.getInstance();
-		int curYear = cal.get(Calendar.YEAR);
-		String pattern = "^\\d{4}-\\d{1,2}-\\d{1,2}$";
-		int submitdueYear, submitdueMonth, submitdueDay;
-		int curMonth, curDay;
-		curMonth = cal.get(Calendar.MONTH) + 1;
-		curDay = cal.get(Calendar.DATE);
+	public static int isValidFinalPassNum(int num) {
 		
-		if(Pattern.matches(pattern, submitdue)) {
-			try {
-					String[] str = submitdue.split("-");
-					submitdueYear = Integer.parseInt(str[0]);
-					submitdueDay = Integer.parseInt(str[2]);
-					if(submitdueYear == curYear || submitdueYear == curYear+1) {
-						submitdueMonth = Integer.parseInt(str[1]);
-						submitdueDay = Integer.parseInt(str[2]);
-						
-						if(submitdueYear == curYear) {
-							if(isValidMonth(submitdueMonth, curMonth) == false) {
-								System.out.println("month error");
-								return 2;
-							}
-							
-							if(isValidDay(submitdueMonth, submitdueDay, curDay) == false) {
-								System.out.println("day error");
-								return 2;
-							}
-						}
-						else{ 
-							if(isValidMonth(submitdueMonth) == false){
-								System.out.println("month error");
-								return 2;
-							}
-							if(isValidDay(submitdueMonth, submitdueDay) == false) {
-								System.out.println("day error");
-								return 2;
-							}
-						}
-					}
-					else {
-						System.err.println("Á¦Ãâ ±âÇÑÀÇ ³âµµ´Â ¿ÃÇØ ¶Ç´Â ³»³âÀ¸·Î ÇØÁÖ½Ê½Ã¿À.");
-						return 2;	
-					}
-				
-			} catch(NumberFormatException e) {
-				System.out.println("³â, ¿ù, ÀÏÀº ¼ýÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
-				return 2;
-			}
-		}
-		else {
-			System.err.println("yyyy-mm-dd Çü½ÄÀ¸·Î ÀÔ·ÂÇØÁÖ¼¼¿ä.");
-			return 2;
-		}
 		return 0;
 	}
 	
 	public static boolean isValidMonth(int month, int curMonth) {
-		if(month < curMonth)
-			return false;
 		if(month < 1 || month > 12)
-			return false;
-		return true;
-	}
-	public static boolean isValidMonth(int month) {
-		if(month < 1 || month > 10)
 			return false;
 		return true;
 	}
@@ -248,14 +280,7 @@ public class Program {
 			System.err.println("Á¦Ãâ ±âÇÑÀº ±ÝÀÏÀÌ°Å³ª ÀÌÀüÀÏ ¼ö ¾ø½À´Ï´Ù.");
 			return false;	
 		}
-		return CheckMonth(month, day);
-	}
-	
-	public static boolean isValidDay(int month, int day) {
-		return CheckMonth(month, day);
-	}
-	
-	public static boolean CheckMonth(int month, int day) {
+		
 		if(month == 1 && (day < 1 || day > 31))
 			return false;
 		else if(month == 2 && (day < 1 || day > 28))
@@ -287,6 +312,36 @@ public class Program {
 	public void SetStaff(Staff staff) {
 		// TODO Auto-generated method stub
 		this._staff = staff;
+		this._staffId = staff.GetStaffInfo().id;
+	}
+	
+	public void SetState(PROGRAMSTATE state) {
+		_state = state;
+	}
+	
+	public void NextState() {
+		switch(_state) {
+		case RECRUIT:
+			_state = PROGRAMSTATE.DOCUEMNTVIEW; 
+			break;
+		case DOCUEMNTVIEW:
+			_state = PROGRAMSTATE.INTERVIEWREVIEW;
+			FinishDocumentScoreFillout();
+			break;
+		case INTERVIEWREVIEW:
+			_state = PROGRAMSTATE.RESULTANNOUNCE;
+			FinishInterviewScoreFillout();
+			break;
+		case RESULTANNOUNCE:
+			_state = PROGRAMSTATE.PROGRESS;
+			break;
+		case PROGRESS:
+			_state = PROGRAMSTATE.END;
+			break;
+		case END:
+			break;
+		}
+		
 	}
 	
 	public String GetName() {
@@ -333,11 +388,13 @@ public class Program {
 		return _aList;
 	}
 	
-	/*public static void main(String args[]) {
-		int ret = isSubmitDueValidCheck("2018-12-29");
+	public static void main(String args[]) {
+		int ret = isValidName("³²»óÀ±");
 		if(ret == 0)
 			System.out.println("good");
 		else
 			System.out.println("bad");
-	}*/	
+	}
+	
+	
 }

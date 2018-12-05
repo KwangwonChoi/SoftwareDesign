@@ -15,7 +15,7 @@ public class Student extends Member {
 	private  String _major;
 	private  float _grade;
 
-	private List<Application> aList;
+	private List<Application> _aList;
 	
 	public Student(String id, String pw, String name, String number, int age, int year, String major, float grade) {
 		super(id, pw, name, number, age);
@@ -24,7 +24,7 @@ public class Student extends Member {
 		this._major = major;
 		this._grade = grade;
 		
-		aList = new ArrayList<Application>();
+		_aList = new ArrayList<Application>();
 	}
 	
 	public Student(StudentInfo std) {
@@ -34,10 +34,12 @@ public class Student extends Member {
 		this._major = std.major;
 		this._grade = std.grade;
 		
-		aList = new ArrayList<Application>();
-		for(ApplicationInfo a : std.aList) {
-			aList.add(Application.GetApplicationFromApplicationInfo(a));
-		}
+		_aList = new ArrayList<Application>();
+
+		if(std.aList != null)
+			for(ApplicationInfo a : std.aList) {
+				_aList.add(Application.GetApplicationFromApplicationInfo(a));
+				}
 	}
 	
 	public StudentInfo GetStudentInfo() {
@@ -59,7 +61,7 @@ public class Student extends Member {
 	private List<ApplicationInfo> MakeApplicationInfoList(){
 		List<ApplicationInfo> aInfoList = new ArrayList<ApplicationInfo>();
 		
-		for(Application a : aList) {
+		for(Application a : _aList) {
 			aInfoList.add(a.GetApplicationInfo());
 		}
 		
@@ -67,16 +69,16 @@ public class Student extends Member {
 	}
 	
 	public Application MakeApplication(Program pro, APPLICATIONSTATE state, float score, Object studyPlan, float langGrade) {
-		Application a = new Application(pro, state,  score, studyPlan, langGrade);
+		Application a = new Application(this, pro, state,  score, studyPlan, langGrade);
 		a.SetStudent(this);
-		aList.add(a);
+		_aList.add(a);
 		
 		return a;
 	}
 	
 	public void MakeApplication(Application a) {
 		a.SetStudent(this);
-		aList.add(a);
+		_aList.add(a);
 	}
 	
 	public String GetId() {
@@ -84,7 +86,11 @@ public class Student extends Member {
 	}
 
 	public final List<Application> GetaList() {
-		return aList;
+		return _aList;
+	}
+	
+	public float GetGrade() {
+		return _grade;
 	}
 
 }

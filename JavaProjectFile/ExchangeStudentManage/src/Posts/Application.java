@@ -10,14 +10,18 @@ import Member.Student;
 public class Application {
 	 
 	private Program _program;
-	private String _programName;			// valid check error number : 1
-	private Student _student;			
+
+	private String _programName;
+	private Student _student;
+	private String _studentId;
 	private APPLICATIONSTATE _state;
 	private float _score;					// valid check error number : 2
 	private Object _studyPlan;
 	private float _langGrade;				// valid check error number : 3
 	
-	public Application(Program program, APPLICATIONSTATE state, float score, Object studyPlan, float langGrade) {
+	public Application(Student std, Program program, APPLICATIONSTATE state, float score, Object studyPlan, float langGrade) {
+		this._student = std;
+		this._studentId = std.GetId();
 		this._program = program;
 		this._programName = program.get_name();
 		this._state = state;
@@ -28,18 +32,22 @@ public class Application {
 	
 	public Application(ApplicationInfo a) {
 		
+		this._studentId = a.studentId;
 		this._programName = a.ProgramName;
 		this._state = a.state;
 		this._score = a.score;
 		this._studyPlan = a.studyPlan;
-		this._langGrade = a.langGrade;		
+		this._langGrade = a.langGrade;
+		
+		if(a.student != null)
+			this._student = new Student(a.student);
 		
 	}
 	
 	public static Application GetApplicationFromApplicationInfo(ApplicationInfo a) {
 	
 		Application app = new Application(a);
-					
+		
 		return app;
 	}
 	
@@ -53,13 +61,22 @@ public class Application {
 	
 	public ApplicationInfo GetApplicationInfo() {
 		ApplicationInfo aInfo = new ApplicationInfo();
-		aInfo.ProgramName = _program.GetName();
-		aInfo.studentId = _student.GetId();
+		aInfo.ProgramName = _programName;
+		aInfo.studentId = _studentId;
 		aInfo.state = _state;
 		aInfo.score = _score;
 		aInfo.studyPlan = _studyPlan;
 		aInfo.langGrade = _langGrade;
 		return aInfo;
+	}
+	
+	public void SetState(APPLICATIONSTATE state) {
+		_state = state;
+	}
+
+	public void AddScore(float score) {
+		_score += score;
+		_state = APPLICATIONSTATE.EVALUATED;
 	}
 	
 	public static int isValidName(String name) {
@@ -111,6 +128,7 @@ public class Application {
 			return 3;
 		}
 		return 0;
+
 	}
 	
 	public void SetStudent(Student s) {

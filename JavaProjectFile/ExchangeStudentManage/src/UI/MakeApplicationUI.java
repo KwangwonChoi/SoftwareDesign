@@ -17,7 +17,6 @@ public class MakeApplicationUI extends MakeUiBase {
 
 	private Student std;
 	private Program pro;
-	private String appProgName;
 	private String studyPlan;
 	private float langGrade;
 	private Scanner scan;
@@ -27,28 +26,17 @@ public class MakeApplicationUI extends MakeUiBase {
 		scan = new Scanner(System.in);
 		// TODO Auto-generated constructor stub
 	}
-	
-	public MakeApplicationUI SetProgram(Program pro) {
-		this.pro = pro;
-		return this;
-	}
-	
+		
 	@Override
 	protected void OnAwake() {
 		super.OnAwake();
 		std = (Student) ObjectCarrier.GetData("Student");
-		//pro = (Program) ObjectCarrier.GetData("Program");
+		pro = (Program) ObjectCarrier.GetData("Program");
 	}
 	
 	@Override
 	protected void OnStart() {
-		int ret = 0;
-		do {
-			PrintProgramName();
-			GetProgramName();
-			ret = Application.isValidName(this.appProgName);
-		}while(ret != 0);
-		
+		PrintUiName();
 		PrintStudyplanRequire();
 		GetStudyPlan();
 
@@ -82,10 +70,6 @@ public class MakeApplicationUI extends MakeUiBase {
 		}
 	}
 	
-	private void PrintProgramName() {
-		System.out.println("지원하는 프로그램 이름을 입력하세요.");
-	}
-
 	private void PrintStudyplanRequire() {
 		System.out.println("수학 계획서를 작성하시오 (30자 내외) : ");
 	}
@@ -96,14 +80,6 @@ public class MakeApplicationUI extends MakeUiBase {
 	
 	private void PrintLangGradeRequire() {
 		System.out.println("영어 성적을 입력하시오 (ex. TOEIC,900 or TOEFL,110. TOEIC,TOEFL만 인정.)");
-	}
-	
-	private void GetProgramName() {
-		appProgName = scan.nextLine();
-	}
-	
-	private void PrintInfo() {
-		System.out.println(this.appProgName + " " + this.studyPlan + " " + this.langGrade);
 	}
 	
 	private void GetLangGrade() {
@@ -155,12 +131,6 @@ public class MakeApplicationUI extends MakeUiBase {
 			
 		}while(true);
 		
-	}
-	
-	public static void main(String[] args) {
-		MakeApplicationUI test = new MakeApplicationUI("test");
-		test.OnStart();
-		test.PrintInfo();
 	}
 	
 }

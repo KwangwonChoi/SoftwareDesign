@@ -17,6 +17,7 @@ public class ProgramInfo {
 	public float lowestGrade;
 	public String useLang;
 	public String datetime;	
+	public int finalPassNum;
 	public List<ApplicationInfo> aList = new ArrayList<ApplicationInfo>();
 	
 }

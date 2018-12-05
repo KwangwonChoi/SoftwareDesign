@@ -25,7 +25,7 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	private String country;
 	private float lowestGrade;
 	private String useLang;
-	private Scanner _scanner;
+	private int finalPassNum;
 
 	public MakeRecruitmentUi(String uiName) {
 		super(uiName);
@@ -42,6 +42,9 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	protected void OnStart() {
 	String temp = null;
 	int ret = 0;
+	
+		PrintUiName();
+	
 		do {
 		PrintNameRequire();
 		GetName();
@@ -68,8 +71,8 @@ public class MakeRecruitmentUi extends MakeUiBase{
 		
 		do {
 			PrintLowestGradeRequire();
-			temp = GetLowestGrade();
-			ret = Program.isLowestGradeValidCheck(temp);
+			GetLowestGrade();
+			ret = Program.isLowestGradeValidCheck(lowestGrade);
 		}while(ret != 0);
 		
 		do {
@@ -77,6 +80,13 @@ public class MakeRecruitmentUi extends MakeUiBase{
 			GetUseLang();
 			ret = Program.isValidUselang(this.useLang);
 		}while(ret != 0);
+
+		do {
+			PrintFinalPassNumRequire();
+			GetFinalPassNum();
+			ret = Program.isValidFinalPassNum(this.finalPassNum);
+		}while(ret != 0);
+
 	}
 	
 	@Override
@@ -89,7 +99,8 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	protected void SendPostsToServer() {
 		// TODO Auto-generated method stub
 		
-		staff.MakeProgram(programName, PROGRAMSTATE.RECRUIT, submitdue, university, country, lowestGrade, useLang);
+		staff.MakeProgram(programName, PROGRAMSTATE.RECRUIT, submitdue, university, country, lowestGrade, useLang,
+				finalPassNum);
 		StaffInfo sInfo = staff.GetStaffInfo();
 		
 		String json = JsonWrapper.ToJson(SEND_TYPE.MAKERECRUITMENT, sInfo);
@@ -132,8 +143,16 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	private void PrintLowestGradeRequire() {
 		System.out.println("LowestGrade : ");
 	}
-	private String GetLowestGrade() {
-		return _scanner.next();
+	private void GetLowestGrade() {
+		boolean re = true;
+		while(re) {
+			try {
+				lowestGrade = _scanner.nextFloat();
+				re = false;
+			}catch(Exception e) {
+				
+			}
+		}
 	}
 	private void PrintUseLangRequire() {
 		System.out.println("UseLang : ");
@@ -141,9 +160,19 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	private void GetUseLang() {
 		useLang = _scanner.next();
 	}
-	public static void main(String[] args) {
-		MakeRecruitmentUi test = new MakeRecruitmentUi("test");
-		test.OnStart();
+	private void PrintFinalPassNumRequire() {
+		System.out.print("Final Pass Num : ");
+	} 
+	private void GetFinalPassNum() {
+		boolean re = true;
+		while(re) {
+			try {
+				finalPassNum = _scanner.nextInt();
+				re = false;
+			}catch(Exception e) {
+				
+			}
+		}
 	}
 
 }

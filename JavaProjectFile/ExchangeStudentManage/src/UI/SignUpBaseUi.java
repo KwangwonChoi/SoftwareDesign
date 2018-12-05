@@ -38,6 +38,7 @@ public abstract class SignUpBaseUi extends UiBase{
 
 	@Override
 	protected void OnStart() {
+		PrintUiName();
 		// TODO Auto-generated method stub
 		GetInfoProcess();
 	}

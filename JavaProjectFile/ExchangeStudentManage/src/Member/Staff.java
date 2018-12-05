@@ -60,8 +60,8 @@ public class Staff extends Member{
 		return pInfoList;
 	}
 	
-	public Program MakeProgram(String name, PROGRAMSTATE state, String submitdue, String university, String country, float lowestGrade, String useLang) {
-		Program p = new Program(name, state, submitdue, university, country, lowestGrade, useLang); 
+	public Program MakeProgram(String name, PROGRAMSTATE state, String submitdue, String university, String country, float lowestGrade, String useLang, int finalPassNum) {
+		Program p = new Program(name, state, submitdue, university, country, lowestGrade, useLang, finalPassNum); 
 		p.SetStaff(this);
 		pList.add(p);
 		

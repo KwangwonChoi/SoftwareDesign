@@ -4,8 +4,9 @@ import Posts.APPLICATIONSTATE;
 
 public class ApplicationInfo {
 
+	public StudentInfo student;
 	public String ProgramName;
-	public String studentId; 
+	public String studentId;
 	public float grade;
 	public APPLICATIONSTATE state;
 	public float score;

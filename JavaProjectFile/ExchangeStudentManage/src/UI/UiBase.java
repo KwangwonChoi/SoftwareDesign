@@ -9,14 +9,13 @@ public abstract class UiBase {
 	}
 	
 	public void UiStart() {
-		PrintUiName();
 		OnAwake();
 		OnStart();
 		OnFinished();
 	}
 	
-	private void PrintUiName() {
-		System.out.println("¢º This is " + _uiName + " Ui");
+	protected void PrintUiName() {
+		System.out.println("\n\n¢º This is " + _uiName + " Ui");
 	}
 	
 	protected abstract void OnAwake(); 

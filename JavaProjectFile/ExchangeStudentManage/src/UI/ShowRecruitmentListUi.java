@@ -27,11 +27,23 @@ public class ShowRecruitmentListUi extends ListUiBase{
 			System.out.println(String.valueOf(i+1) + ". " + staff.GetProgramList().get(i).GetName());
 			Program p = staff.GetProgramList().get(i);
 			
-			ObjectCarrier.SaveData("Program", p);
 			_uiLists.add((new ShowRecruitmentUi(p.GetName())));
 		}
 	}
-
 	
+	protected void OnFinished() {
+		ObjectCarrier.SaveData("Staff", staff);
+	}
+	
+	@Override
+	protected void GoToMenu(int menu) {
+		
+		if(menu != 0) {
+			ObjectCarrier.SaveData("Staff", staff);
+			ObjectCarrier.SaveData("ProgramIndex", menu-1);
+		}
+		
+		super.GoToMenu(menu);
+	}
 
 }
