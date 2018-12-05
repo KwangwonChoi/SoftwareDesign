@@ -91,7 +91,8 @@ public class ShowAllProceedingProgram extends ListUiBase{
 		}
 		super.GoToMenu(menu);
 		
-		std = (Student)ObjectCarrier.GetData("Student");
+		if(menu != 0)
+			std = (Student)ObjectCarrier.GetData("Student");
 	}
 	
 	@Override

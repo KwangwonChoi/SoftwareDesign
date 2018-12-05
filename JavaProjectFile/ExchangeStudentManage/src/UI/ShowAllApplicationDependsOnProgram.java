@@ -104,12 +104,12 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 		
 		_uiLists.clear();
 		indexMap.clear();
-		
+		List<Application> aList = pro.get_aList();
 		int cnt = 1;
 		
 		if(pro.get_state() == PROGRAMSTATE.DOCUEMNTVIEW || pro.get_state() == PROGRAMSTATE.INTERVIEWREVIEW) {
-			for(int i = 0 ; i < pro.get_aList().size() ; i++) {
-				Application a = pro.get_aList().get(i);
+			for(int i = 0 ; i < aList.size() ; i++) {
+				Application a = aList.get(i);
 				
 				if(a.get_state() != APPLICATIONSTATE.UNPASS && a.get_state() != APPLICATIONSTATE.EVALUATED) {
 					System.out.println(String.valueOf(cnt++) + ". " + a.get_student().GetId());
@@ -118,7 +118,7 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 				}
 			}
 			
-			if(cnt == 1) {
+			if(HasAllApplicationChanged(cnt)) {
 				System.out.println("이대로 저장하시겠습니까 ?(Y : 0, N : any)");
 			}
 		}
@@ -128,6 +128,9 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 		
 		
 		
+	}
+	private boolean HasAllApplicationChanged(int cnt) {
+		return cnt == 1;
 	}
 	
 	private void SendToServer() {
@@ -162,7 +165,8 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 			
 			super.GoToMenu(menu);
 			
-			pro = (Program)ObjectCarrier.GetData("Program");
+			if(menu != 0)
+				pro = (Program)ObjectCarrier.GetData("Program");
 		}
 		
 		else if(menu == 0)

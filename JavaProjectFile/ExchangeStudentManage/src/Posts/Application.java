@@ -79,41 +79,6 @@ public class Application {
 		_state = APPLICATIONSTATE.EVALUATED;
 	}
 	
-	public static int isValidName(String name) {
-		name = name.replaceAll(" ", "");
-		if(name == null || name.equals("")) {
-			System.err.println("ÀÌ¸§À» ÀÔ·ÂÇØ ÁÖ¼¼¿ä.");
-			return 1;
-		}
-		
-		if(Pattern.matches("^[a-zA-Z°¡-ÆR]*$", name))
-			return 0;
-		
-		if(name.matches("^[0-9]*$")) {
-			System.err.println("ÀÌ¸§¿¡´Â ¼ýÀÚ°¡ Æ÷ÇÔµÉ ¼ö ¾ø½À´Ï´Ù.");
-			return 1;
-		}
-		else {
-			System.err.println("ÀÌ¸§¿¡´Â Æ¯¼ö¹®ÀÚ¸¦ Æ÷ÇÔÇÒ ¼ö ¾ø½À´Ï´Ù.");
-			return 1;
-		}
-	}
-	
-	public static int isValidScore(String score) {
-		float g;
-		score = score.replaceAll(" ", "");
-		try {
-			g = Float.parseFloat(score);
-		}catch(NumberFormatException e) {
-			System.err.println("¼ýÀÚ¸¦ ÀÔ·ÂÇØÁÖ¼¼¿ä.");
-			return 2;
-		}catch(NullPointerException e) {
-			System.err.println("Á¡¼ö¸¦ ÀÔ·ÂÇÏ¼¼¿ä.");
-			return 2;
-		}
-		return 0;
-	}
-	
 	public static int isValidLangGrade(String langGrade) {
 		float g;
 		langGrade = langGrade.replaceAll(" ", "");

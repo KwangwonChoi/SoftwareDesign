@@ -171,9 +171,9 @@ public class EchoServer extends AbstractServer
 				  a.student = s;
 				  a.student.aList = null;
 				  pro.aList.add(a);
+				  
+				  break;
 			  }
-			  
-			  break;
 		  }
 	  }
 	  

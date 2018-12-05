@@ -7,6 +7,6 @@
 	</classpathentry>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="lib" path="C:/Users/rhkdd/OneDrive/바탕 화면/SoftwareDesign/JavaProjectFile/ExchangeStudentManage/jars/gson-2.8.5.jar"/>
-	<classpathentry kind="lib" path="C:/Users/rhkdd/OneDrive/바탕 화면/SoftwareDesign/JavaProjectFile/ExchangeStudentManage/jars/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="jars/gson-2.8.5.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

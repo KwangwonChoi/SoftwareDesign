@@ -92,7 +92,7 @@ public class Program {
 		});
 	}
 	
-	public void FinishDocumentScoreFillout() {
+	private void FinishDocumentScoreFillout() {
 		ApplicationListSort();
 		int aliveNum = _finalPassNum * 2;
 		
@@ -105,7 +105,7 @@ public class Program {
 		}
 	}
 	
-	public void FinishInterviewScoreFillout() {
+	private void FinishInterviewScoreFillout() {
 		ApplicationListSort();
 		int aliveNum = _finalPassNum;
 		
@@ -386,14 +386,6 @@ public class Program {
 
 	public final List<Application> get_aList() {
 		return _aList;
-	}
-	
-	public static void main(String args[]) {
-		int ret = isValidName("≥≤ªÛ¿±");
-		if(ret == 0)
-			System.out.println("good");
-		else
-			System.out.println("bad");
 	}
 	
 	
