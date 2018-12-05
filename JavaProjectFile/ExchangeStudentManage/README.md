@@ -10,23 +10,39 @@
 ## 2.1. UiBase
 ### 2.1.1. UiBase는 모든 Ui가 상속 받아야하는 Class이다.
 #### UiBase를 보면 모든 Ui의 LifeCycle이 OnAwake() -> OnStart() -> OnFinished() 임을 알 수 있다.
+#### OnAwake에서는 데이터를 초기화 하고, OnStart에서는 작업을 수행하며, OnFinished에서는 데이터를 정리한다.
 ##
-## 2.2. MenuUiBase
-### 2.2.1 MenuUi의 Base가 되는 Class이다.
-#### _uiLists에 메뉴를 선택하면 가게 되는 class만 OnAwake()에서 instantiate해 주면 된다.
-##### SignMenuUi 참고.
+## 2.2. ListBaseUi
+### 2.2.1 List를 가지는 Ui의 base가 되는 Ui이다.
+#### PrintMenus를 Override하여 Customizing 할 수 있다.
+##### MenuUiBase 참고.
 ```java
 
-@Override
-	protected void OnAwake() {
-		//initilize ui
-		
-		_uiLists.add(new SignInUi("SignIn"));
-		_uiLists.add(new SignUpMenuUi("SignUp"));
+public abstract class MenuUiBase extends ListUiBase {
+
+	public MenuUiBase(String uiName) {
+		super(uiName);
+		// TODO Auto-generated constructor stub
 	}
+	
+	@Override
+	protected void PrintMenus() {
+		
+		if(_uiLists.size() != 0) {
+			for(int i = 0; i < _uiLists.size(); i++) {
+				System.out.println(String.valueOf(i+1) + ". " + _uiLists.get(i)._uiName);
+			}
+			
+			System.out.println("Enter your menu. if you want to exit, enter Num 0.");
+		}
+	}
+	
+}
 ```
 ##
 ## 2.3. MakeUiBase
+### 2.3.1 User로 부터 내용을 입력 받아서 서버에 Posts를 송신하는 Ui의 Base가 된다.
+#### MakeApplicationUi, MakeRecruitmentUi의 Base.
 
 #
 # 3. Communiation
