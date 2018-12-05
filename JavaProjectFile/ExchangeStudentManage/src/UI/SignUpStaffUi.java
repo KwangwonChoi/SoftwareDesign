@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 
 import DataManage.JsonFormat.JsonWrapper;
 import DataManage.JsonFormat.StaffInfo;
+import DataManage.UiManage.ObjectCarrier;
 import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
 import OCSF.common.*;
 
@@ -72,15 +73,10 @@ public class SignUpStaffUi extends SignUpBaseUi{
 	@Override
 	protected String SignUpJsonInfo() {
 		
-		StaffInfo staff = new StaffInfo(_id,_pw,_number,_age,_department);
+		StaffInfo staff = new StaffInfo(_id, _pw, _name, _number,_age,_department);
 		JsonWrapper json = new JsonWrapper();
 		
 		return json.ToJson(SEND_TYPE.SIGNUPSTAFF, staff);
-	}
-
-	@Override
-	protected void SignUpSucceed() {
-		(new StaffMainMenuUi("Staff Main Menu")).UiStart();
 	}
 
 }

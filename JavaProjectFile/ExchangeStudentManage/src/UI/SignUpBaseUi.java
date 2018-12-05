@@ -3,6 +3,15 @@ package UI;
 import java.io.IOException;
 import java.util.InputMismatchException;
 import java.util.Scanner;
+
+import com.google.gson.Gson;
+
+import DataManage.JsonFormat.JsonWrapper;
+import DataManage.JsonFormat.StaffInfo;
+import DataManage.JsonFormat.StudentInfo;
+import DataManage.UiManage.ObjectCarrier;
+import Member.Staff;
+import Member.Student;
 import OCSF.client.*;
 
 public abstract class SignUpBaseUi extends UiBase{
@@ -10,9 +19,11 @@ public abstract class SignUpBaseUi extends UiBase{
 	protected Scanner scanner = new Scanner(System.in);
 	protected String _id;
 	protected String _pw;
+	protected String _name;
 	protected String _number;
 	protected int _age;
 	protected boolean _wantSignUp; 
+	protected UiBase nextUi;
 	
 	public SignUpBaseUi(String uiName) {
 		super(uiName);
@@ -58,6 +69,8 @@ public abstract class SignUpBaseUi extends UiBase{
 		
 		GetPw();
 		
+		GetName();
+		
 		GetAge();
 	}
 	
@@ -95,15 +108,37 @@ public abstract class SignUpBaseUi extends UiBase{
 			if (isValidPw(_pw))
 				break;
 			else
-				System.out.println("비밀번호는 3자리 이상이어야 합니다.");
+				System.out.println("비밀번호는 3자리 이상 20자리 이하이어야 합니다.");
 		}
 	}
 	
 	private boolean isValidPw(String pw) {
 		boolean ret = true;
 		
-		if(pw.length() < 3)
+		if(pw.length() < 3 || pw.length() > 20)
 			ret = false;
+		
+		return ret;
+	}
+	
+	private void PrintNameRequire() {
+		System.out.print("Name : ");
+	}
+	
+	private void GetName() {
+		while(true) {
+			PrintNameRequire();
+			_name = scanner.next();
+			
+			if (isValidName(_name))
+				break;
+			else
+				System.out.println("");
+		}
+	}
+	
+	private boolean isValidName(String name) {
+		boolean ret = true;
 		
 		return ret;
 	}
@@ -182,12 +217,28 @@ public abstract class SignUpBaseUi extends UiBase{
 					} catch (Exception e) {
 						// TODO Auto-generated catch block
 						System.out.println("통신에러");
+						return false;
 					}
 			}
 			
-			if(serverText == "true")
-				isSucceed = true;
+			Gson gson = new Gson();
+			JsonWrapper jsonwrapper = JsonWrapper.FromJson(serverText);
 			
+			switch(jsonwrapper.type) {
+			case SIGNUPSTUDENT : 
+				isSucceed = true;
+				nextUi = (new StudentMainMenuUi("Student Main Menu"));
+				ObjectCarrier.SaveData("Student", new Student(gson.fromJson(jsonwrapper.json, StudentInfo.class)));
+				break;
+			case SIGNUPSTAFF :
+				isSucceed = true;
+				nextUi = (new StaffMainMenuUi("Staff Main Menu"));
+				ObjectCarrier.SaveData("Staff", new Staff(gson.fromJson(jsonwrapper.json, StaffInfo.class)));
+				break;
+			default :
+				System.out.println("통신 에러!");
+				break;
+			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -195,7 +246,10 @@ public abstract class SignUpBaseUi extends UiBase{
 		
 		return isSucceed;
 	}
-	protected abstract void SignUpSucceed();
+	
+	protected void SignUpSucceed() {
+		nextUi.UiStart();
+	}
 	
 	protected abstract String SignUpJsonInfo();
 

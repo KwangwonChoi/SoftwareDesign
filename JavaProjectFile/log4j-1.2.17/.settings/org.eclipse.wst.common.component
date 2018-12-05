@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+    <wb-module deploy-name="log4j-1.2.17">
+        <wb-resource deploy-path="/" source-path="/ejbModule" tag="defaultRootSource"/>
+        <wb-resource deploy-path="/" source-path="/ImportedClasses"/>
+        <property name="java-output-path" value="/log4j-1.2.17/build/classes"/>
+    </wb-module>
+</project-modules>
