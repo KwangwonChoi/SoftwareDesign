@@ -35,7 +35,8 @@ public class Application {
 		this._state = a.state;
 		this._score = a.score;
 		this._studyPlan = a.studyPlan;
-		this._langGrade = a.langGrade;		
+		this._langGrade = a.langGrade;
+		this._student = new Student(a.student);
 		
 	}
 	
@@ -63,6 +64,10 @@ public class Application {
 		aInfo.studyPlan = _studyPlan;
 		aInfo.langGrade = _langGrade;
 		return aInfo;
+	}
+	
+	public void AddScore(float score) {
+		_score += score;
 	}
 	
 	public void SetStudent(Student s) {

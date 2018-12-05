@@ -38,8 +38,10 @@ public class ShowRecruitmentListUi extends ListUiBase{
 	@Override
 	protected void GoToMenu(int menu) {
 		
-		if(menu != 0)
-			ObjectCarrier.SaveData("Program", staff.GetProgramList().get(menu - 1));
+		if(menu != 0) {
+			ObjectCarrier.SaveData("Staff", staff);
+			ObjectCarrier.SaveData("ProgramIndex", menu-1);
+		}
 		
 		super.GoToMenu(menu);
 	}

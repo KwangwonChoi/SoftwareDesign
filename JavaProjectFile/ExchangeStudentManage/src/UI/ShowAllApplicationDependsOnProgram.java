@@ -5,7 +5,6 @@ import java.io.IOException;
 import com.google.gson.Gson;
 
 import DataManage.JsonFormat.ApplicationInfo;
-import DataManage.JsonFormat.ApplicationListInfo;
 import DataManage.JsonFormat.JsonWrapper;
 import DataManage.JsonFormat.ProgramInfo;
 import DataManage.JsonFormat.ProgramListInfo;
@@ -25,8 +24,6 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 	private String _serverText;
 	private int timeCount;
 	private Program pro;
-	private ApplicationListInfo aListInfo; 
-	
 	
 	@Override
 	protected void OnAwake() {
@@ -41,7 +38,7 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 				
 				Thread.sleep(1);
 					
-				if(timeCount > 10000)
+				if(timeCount > 1000)
 					throw new Exception();
 			}
 			
@@ -58,18 +55,30 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 		
 		Gson gson = new Gson();
 		
-		aListInfo = gson.fromJson(JsonWrapper.FromJson(_serverText).json, ApplicationListInfo.class);
+		pro = Program.GetProgramFromProgramInfo(gson.fromJson(JsonWrapper.FromJson(_serverText).json, ProgramInfo.class));
 	}
 	
 	@Override
 	protected void PrintMenus() {
 		// TODO Auto-generated method stub
 		
-		for(int i = 0 ; i < aListInfo.a.size() ; i++) {
-			ApplicationInfo aInfo = aListInfo.a.get(i);
-			System.out.println(String.valueOf(i+1) + ". " + aInfo.studentId);
+		for(int i = 0 ; i < pro.get_aList().size() ; i++) {
+			Application a = pro.get_aList().get(i);
+			System.out.println(String.valueOf(i+1) + ". " + a.get_student().GetId());
 			
 			_uiLists.add((new ShowApplicationSetScoreUi("응시원서 보기")));
+		}
+	}
+	
+	private void SendToServer() {
+		
+		try {
+			
+			ChatClient.GetInstance().sendToServer(JsonWrapper.ToJson(SEND_TYPE.EDITAPPLICATIONSCORE, pro.GetProgramInfo()));
+			
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 	}
 	
@@ -77,10 +86,12 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 	protected void GoToMenu(int menu) {
 		
 		if(menu != 0) {
-			ObjectCarrier.SaveData("ApplicationList", aListInfo);
+			ObjectCarrier.SaveData("Program", pro);
 			ObjectCarrier.SaveData("index", menu-1);
 		}
 		
 		super.GoToMenu(menu);
+		
+		pro = (Program)ObjectCarrier.GetData("Program");
 	}
 }

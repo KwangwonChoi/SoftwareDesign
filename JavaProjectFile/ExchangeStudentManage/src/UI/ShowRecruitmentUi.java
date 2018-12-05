@@ -1,6 +1,7 @@
 package UI;
 
 import DataManage.UiManage.ObjectCarrier;
+import Member.Staff;
 import Posts.Program;
 
 public class ShowRecruitmentUi extends UiBase {
@@ -10,12 +11,16 @@ public class ShowRecruitmentUi extends UiBase {
 		// TODO Auto-generated constructor stub
 	}
 	
+	private Staff staff;
+	private int programIndex;
 	private Program program;
 	
 	@Override
 	protected void OnAwake() {
 		// TODO Auto-generated method stub
-		program = (Program)ObjectCarrier.GetData("Program");
+		staff = (Staff)ObjectCarrier.GetData("Staff");
+		programIndex = (int)ObjectCarrier.GetData("ProgramIndex");
+		program = staff.GetProgramList().get(programIndex);
 	}
 
 	@Override
@@ -40,6 +45,7 @@ public class ShowRecruitmentUi extends UiBase {
 	@Override
 	protected void OnFinished() {
 		ObjectCarrier.SaveData("Program", program);
+		ObjectCarrier.SaveData("Staff", staff);
 		(new ShowAllApplicationDependsOnProgram("응시원서 확인")).UiStart();
 	}
 

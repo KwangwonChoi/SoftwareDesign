@@ -1,9 +1,9 @@
 package UI;
 
 import DataManage.JsonFormat.ApplicationInfo;
-import DataManage.JsonFormat.ApplicationListInfo;
 import DataManage.UiManage.ObjectCarrier;
 import Posts.Application;
+import Posts.Program;
 
 public class ShowApplicationSetScoreUi extends UiBase{
 
@@ -12,31 +12,33 @@ public class ShowApplicationSetScoreUi extends UiBase{
 		// TODO Auto-generated constructor stub
 	}
 	
-	ApplicationInfo app;
-	
+	Program program;
+	Application application;
 	@Override
 	protected void OnAwake() {
 		
 		int index = (int) ObjectCarrier.GetData("index");
-		app = ((ApplicationListInfo) ObjectCarrier.GetData("ApplicationList")).a.get(index);
+		program = ((Program) ObjectCarrier.GetData("Program"));
 		
+		application = program.get_aList().get(index);
 	}
 	
 	@Override
 	protected void OnStart() {
 		
-		System.out.println("Program Name : " + app.ProgramName);
+		System.out.println("Program Name : " + application.get_programName());
 		
-		System.out.println("Current State : " + app.state);
+		System.out.println("Current State : " + application.get_state());
 		
-		System.out.println("Study Plan : " + app.studyPlan);
+		System.out.println("Study Plan : " + application.get_studyPlan());
 				
-		System.out.println("Student Grade : " + app.grade);
+		System.out.println("Student Grade : " + application.get_student().GetGrade());
 		
-		System.out.println("Language Grade : " + app.langGrade);
+		System.out.println("Language Grade : " + application.get_langGrade());
 		
 		System.out.println("Score : ");
-		app.score += GetScore();
+		
+		application.AddScore(GetScore());
 	}
 	
 	private float GetScore() {
@@ -56,4 +58,8 @@ public class ShowApplicationSetScoreUi extends UiBase{
 		return score;
 	}
 	
+	@Override
+	protected void OnFinished() {
+		ObjectCarrier.SaveData("Program", program);
+	}
 }

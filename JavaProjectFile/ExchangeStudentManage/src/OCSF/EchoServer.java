@@ -11,7 +11,6 @@ import com.google.gson.Gson;
 import DataManage.*;
 import DataManage.FileManage.FileManager;
 import DataManage.JsonFormat.ApplicationInfo;
-import DataManage.JsonFormat.ApplicationListInfo;
 import DataManage.JsonFormat.JsonWrapper;
 import DataManage.JsonFormat.JsonWrapper.SEND_TYPE;
 import DataManage.JsonFormat.LoginInfo;
@@ -99,7 +98,7 @@ public class EchoServer extends AbstractServer
     	toClientString = RequestApplication(gson.fromJson(receivedData.json, ProgramInfo.class));
     	break;
     case EDITAPPLICATIONSCORE:
-    	toClientString = EditApplicationScore(gson.fromJson(receivedData.json, ApplicationListInfo.class));
+    	toClientString = EditApplicationScore(gson.fromJson(receivedData.json, ProgramInfo.class));
     	
     }
     
@@ -112,12 +111,12 @@ public class EchoServer extends AbstractServer
 	}
   }
   
-  private String EditApplicationScore(ApplicationListInfo list) {
+  private String EditApplicationScore(ProgramInfo p) {
 	  FileManager fmgr = new FileManager();
 	  MemberList member = fmgr.GetMemberListFromFile();
 	  
 	  //일단 기능만 구현. 최적화는 나중에
-	  for(ApplicationInfo app : list.a) {
+	  for(ApplicationInfo app : p.aList) {
 		  for(StudentInfo s : member.students) {
 			  if(s.id.equals(app.studentId)) {
 				  for(ApplicationInfo a : s.aList) {
@@ -152,19 +151,21 @@ public class EchoServer extends AbstractServer
 	  FileManager fmgr = new FileManager();
 	  MemberList member = fmgr.GetMemberListFromFile();
 	  
-	  ApplicationListInfo aListInfo = new ApplicationListInfo();
+	  pro.aList = new ArrayList<ApplicationInfo>();
 	  
 	  for(StudentInfo s: member.students) {
 		  for(ApplicationInfo a : s.aList) {
 			  if(a.ProgramName.equals(pro.name)) {
-				  aListInfo.a.add(a);
+				  a.student = s;
+				  a.student.aList = null;
+				  pro.aList.add(a);
 			  }
 			  
 			  break;
 		  }
 	  }
 	  
-	  return JsonWrapper.ToJson(SEND_TYPE.REQUESTAPPLICATION, aListInfo);
+	  return JsonWrapper.ToJson(SEND_TYPE.REQUESTAPPLICATION, pro);
   }
   
   private String SignIn(LoginInfo login){

@@ -23,6 +23,7 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	private String country;
 	private float lowestGrade;
 	private String useLang;
+	private int finalPassNum;
 
 	public MakeRecruitmentUi(String uiName) {
 		super(uiName);
@@ -54,6 +55,9 @@ public class MakeRecruitmentUi extends MakeUiBase{
 		
 		PrintUseLangRequire();
 		GetUseLang();
+		
+		PrintFinalPassNumRequire();
+		GetFinalPassNum();
 	}
 	
 	@Override
@@ -66,7 +70,8 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	protected void SendPostsToServer() {
 		// TODO Auto-generated method stub
 		
-		staff.MakeProgram(programName, PROGRAMSTATE.RECRUIT, submitdue, university, country, lowestGrade, useLang);
+		staff.MakeProgram(programName, PROGRAMSTATE.RECRUIT, submitdue, university, country, lowestGrade, useLang,
+				finalPassNum);
 		StaffInfo sInfo = staff.GetStaffInfo();
 		
 		String json = JsonWrapper.ToJson(SEND_TYPE.MAKERECRUITMENT, sInfo);
@@ -116,6 +121,12 @@ public class MakeRecruitmentUi extends MakeUiBase{
 	} 
 	private void GetUseLang() {
 		useLang = _scanner.next();
+	}
+	private void PrintFinalPassNumRequire() {
+		System.out.print("Final Pass Num : ");
+	} 
+	private void GetFinalPassNum() {
+		finalPassNum = _scanner.nextInt();
 	}
 	
 

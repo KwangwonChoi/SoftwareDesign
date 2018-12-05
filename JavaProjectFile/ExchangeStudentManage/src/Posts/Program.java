@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Scanner;
 
+import DataManage.JsonFormat.ApplicationInfo;
 import DataManage.JsonFormat.ProgramInfo;
 import Member.Staff;
 
@@ -21,9 +22,10 @@ public class Program {
 	private String _useLang;
 	private String _datetime;
 	private SimpleDateFormat _transFormat;
+	private int _finalPassNum; 
 	private List<Application> _aList;
 	
-	public Program(String name, PROGRAMSTATE state, String submitdue, String university, String country, float lowestGrade, String useLang) {
+	public Program(String name, PROGRAMSTATE state, String submitdue, String university, String country, float lowestGrade, String useLang, int finalPassNum) {
 		this._name = name;
 		this._state = state;
 		this._submitdue = submitdue;
@@ -33,6 +35,7 @@ public class Program {
 		this._useLang = useLang;
 		this._transFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		this._datetime = _transFormat.format(new Date());
+		this._finalPassNum = finalPassNum;
 		this._aList = new ArrayList<Application>(); 
 	}
 	
@@ -45,6 +48,12 @@ public class Program {
 		this._lowestGrade = pInfo.lowestGrade;
 		this._useLang = pInfo.useLang;
 		this._datetime = pInfo.datetime;
+		this._finalPassNum = pInfo.finalPassNum;
+		
+		_aList = new ArrayList<Application>();
+		for(ApplicationInfo a : pInfo.aList) {
+			_aList.add(new Application(a));
+		}
 	}
 	
 	public ProgramInfo GetProgramInfo() {
@@ -58,17 +67,19 @@ public class Program {
 		pInfo.university = this._university;
 		pInfo.submitdue = this._submitdue;
 		pInfo.useLang = this._useLang;
+		pInfo.finalPassNum = this._finalPassNum;
 		return pInfo;
 	}
 	
 	public static Program GetProgramFromProgramInfo(ProgramInfo pInfo) {
 		
-		return new Program(pInfo.name, pInfo.state, pInfo.submitdue, pInfo.university, pInfo.country, pInfo.lowestGrade, pInfo.useLang); 
+		return new Program(pInfo); 
+		
 	}
 	
 	public static Program GetProgramFromProgramInfo(ProgramInfo pInfo, Staff staff) {
 		
-		Program p = new Program(pInfo.name, pInfo.state, pInfo.submitdue, pInfo.university, pInfo.country, pInfo.lowestGrade, pInfo.useLang);
+		Program p = new Program(pInfo.name, pInfo.state, pInfo.submitdue, pInfo.university, pInfo.country, pInfo.lowestGrade, pInfo.useLang, pInfo.finalPassNum);
 		p.SetStaff(staff);
 		return p;
 	} 
