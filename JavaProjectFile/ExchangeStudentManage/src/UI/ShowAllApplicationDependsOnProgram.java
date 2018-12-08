@@ -32,6 +32,7 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 	private int programIndex;
 	private Program pro;
 	private List<Integer> indexMap = new ArrayList<Integer>();
+	private boolean isSaveScoreStage = false, isSaveScore = false;
 	
 	@Override
 	protected void OnAwake() {
@@ -69,31 +70,54 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 	}
 	
 	@Override
+	protected void OnStart() {
+		
+		int menu = 0;
+		
+		do {
+		PrintUiName();
+		PrintMenus();
+		
+		if(!isSaveScoreStage) {
+			menu = GetMenu();
+			GoToMenu(menu);
+		}
+		else
+			SaveMenu();
+		
+		}while(menu != 0 && !isSaveScoreStage /*menu's exit type is 0*/);
+		
+	}
+	
+	@Override
 	protected void OnFinished() {
 		
-		while((_serverText = ChatClient.GetInstance().GetstringFromServer()) == null) {
-			timeCount++;
-			
-			try {
-				Thread.sleep(1);
-			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		if(isSaveScore) {
+			while((_serverText = ChatClient.GetInstance().GetstringFromServer()) == null) {
+				timeCount++;
 				
-			if(timeCount > 100000)
 				try {
-					throw new Exception();
-				} catch (Exception e) {
+					Thread.sleep(1);
+				} catch (InterruptedException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+					
+				if(timeCount > 100000)
+					try {
+						throw new Exception();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+			}
+			
+			for(Program p : staff.GetProgramList()) {
+				if(p.get_name().equals(pro.get_name()))
+					p.SetState(pro.get_state());
+			}
 		}
 		
-		for(Program p : staff.GetProgramList()) {
-			if(p.get_name().equals(pro.get_name()))
-				p.SetState(pro.get_state());
-		}
 		ObjectCarrier.SaveData("Staff", staff);
 		
 	}
@@ -119,16 +143,15 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 			}
 			
 			if(HasAllApplicationChanged(cnt)) {
-				System.out.println("이대로 저장하시겠습니까 ?(Y : 0, N : any)");
+				isSaveScoreStage = true;
 			}
 		}
 		else {
 			System.out.println("점수입력이 종료된 프로그램 입니다.");
 		}
 		
-		
-		
 	}
+	
 	private boolean HasAllApplicationChanged(int cnt) {
 		return cnt == 1;
 	}
@@ -154,6 +177,17 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 		
 	}
 	
+	
+	protected void SaveMenu() {
+		System.out.println("이대로 저장하시겠습니까 ?(y/n)");
+		
+		String str = scanner.next();
+		
+		if(str.toLowerCase().equals("y"))
+			SendToServer();
+		
+	}
+	
 	@Override
 	protected void GoToMenu(int menu) {
 		
@@ -168,8 +202,5 @@ public class ShowAllApplicationDependsOnProgram extends ListUiBase{
 			if(menu != 0)
 				pro = (Program)ObjectCarrier.GetData("Program");
 		}
-		
-		else if(menu == 0)
-			SendToServer();
 	}
 }

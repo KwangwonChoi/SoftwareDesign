@@ -308,17 +308,6 @@ public class Program {
 		return true;
 	}
 	
-
-	public void SetStaff(Staff staff) {
-		// TODO Auto-generated method stub
-		this._staff = staff;
-		this._staffId = staff.GetStaffInfo().id;
-	}
-	
-	public void SetState(PROGRAMSTATE state) {
-		_state = state;
-	}
-	
 	public void NextState() {
 		switch(_state) {
 		case RECRUIT:
@@ -342,6 +331,17 @@ public class Program {
 			break;
 		}
 		
+	}
+	
+
+	public void SetStaff(Staff staff) {
+		// TODO Auto-generated method stub
+		this._staff = staff;
+		this._staffId = staff.GetStaffInfo().id;
+	}
+	
+	public void SetState(PROGRAMSTATE state) {
+		_state = state;
 	}
 	
 	public String GetName() {

@@ -119,7 +119,7 @@ public class MakeApplicationUI extends MakeUiBase {
 				
 			case "TOEFL":
 				if(score > 120 || score < 0) {
-					System.out.println("토플 점수의 범위는 0 ~ 990점 입니다.");
+					System.out.println("토플 점수의 범위는 0 ~ 120점 입니다.");
 					break;
 				}
 				
